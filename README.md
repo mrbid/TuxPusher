@@ -19,8 +19,8 @@ _Just move around your mouse and click to release a coin._
 ### Play Options
 - **WebGL:** https://mrbid.github.io/tuxpusher
 - **Snapcraft:** https://snapcraft.io/tuxpusher
-- **Linux Binary:** https://github.com/mrbid/TuxPusher/releases/download/Initial-Release/tux
-- **Windows Binary:** https://github.com/mrbid/TuxPusher/releases/download/Initial-Release/tux_win.zip
+- **Linux Binary:** https://github.com/mrbid/TuxPusher/releases/download/1.0/tux
+- **Windows Binary:** https://github.com/mrbid/TuxPusher/releases/download/1.0/tux_win.zip
 
 ---
 
