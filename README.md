@@ -26,6 +26,8 @@ https://github.com/mrbid/tuxpusher/raw/main/tux
 https://github.com/mrbid/tuxpusher/raw/main/tux.exe<br>
 https://github.com/mrbid/tuxpusher/raw/main/glfw3.dll
 
+---
+
 ### Debian/Ubuntu Build Instructions
 1. Install depencency libglfw3
 ```
@@ -47,6 +49,8 @@ or `make` or `./compile.sh`
 apt-get install gcc-mingw-w64-i686-win32
 ```
 2. Execute `./release.sh`
+
+---
 
 ### License
 This software TuxPusher is released under the [GPL-2.0-only](https://spdx.org/licenses/GPL-2.0-only.html) license. Being released under 'GPL-2.0-only' means that any subsequent versions of the GPL-2.0 license are NOT applicable to the source code or assets in this GitHub repository. This GPL-2.0-only licensing includes source code and all assets apart from the Tux 3D asset ([tux.h](assets/tux.h)) created by [Andy Cuccaro](https://sketchfab.com/andycuccaro) which is licenced under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
