@@ -1,4 +1,4 @@
-# tuxpusher
+# TuxPusher
 A Tux themed 3D coin pusher game.
 
 ### Screendump
