@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=TuxPusher
+Comment=A fun coin pusher game featuring Tux!
+StartupNotify=false
+Exec=tuxpusher
+Icon=${SNAP}/meta/gui/tuxpusher.png
+Terminal=false
+Type=Application
+Categories=Application;Game;ArcadeGame;

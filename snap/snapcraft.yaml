@@ -1,0 +1,49 @@
+name: tuxpusher
+base: core20
+version: '1.0'
+summary: A fun coin pusher game featuring Tux!
+description: |
+  Just move around your mouse and click to release a coin.
+
+  Getting a gold coin in a silver slot rewards you 2x silver coins.
+  Getting a gold coin in a gold slot rewards you 2x gold coins.
+  Getting a tux in a slot when you already have the tux gives you 6x gold coins and 6x silver coins.
+
+  Left Click = Release coin.
+  Right Click = Show/Hide cursor.
+  C = Orthographic/Perspective.
+  F = FPS to console.
+
+grade: stable
+confinement: strict
+
+architectures:
+  - build-on: amd64
+    run-on: amd64
+  - build-on: arm64
+    run-on: arm64
+  - build-on: armhf
+    run-on: armhf
+
+apps:
+  tuxpusher:
+    extensions: [gnome-3-38]
+    command: tuxpusher
+    plugs:
+    - desktop
+    - desktop-legacy
+    - gsettings
+    - opengl
+    - wayland
+    - x11
+
+parts:
+  tuxpusher:
+    source: https://github.com/mrbid/tuxpusher
+    source-type: git
+    plugin: make
+    build-packages:
+    - libglfw3-dev
+    stage-packages:
+    - libglfw3
+    - libgles2
