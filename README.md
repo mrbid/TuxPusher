@@ -2,7 +2,7 @@
 A Tux themed 3D coin pusher game.
 
 ### Screendump
-![Image of the Coin Pusher game](https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_819,h_634/https://dashboard.snapcraft.io/site_media/appmedia/2022/12/Screenshot_2022-12-31_08-03-08.png)
+![Image of the TuxPusher game](https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-47-51.png)
 
 ### Mechanics / Rules
 - Getting a gold coin in a silver slot rewards you 2x silver coins.
