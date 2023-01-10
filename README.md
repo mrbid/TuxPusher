@@ -16,7 +16,7 @@ _Just move around your mouse and click to release a coin._
 - C = Orthographic/Perspective.
 - F = FPS to console.
 
-### Download Options
+### Play Options
 - **Snapcraft:** https://snapcraft.io/tuxpusher
 - **Linux Binary:** https://github.com/mrbid/TuxPusher/releases/download/Initial-Release/tux
 - **Windows Binary:** https://github.com/mrbid/TuxPusher/releases/download/Initial-Release/tux_win.zip
