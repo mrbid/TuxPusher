@@ -1,10 +1,12 @@
 /*
 --------------------------------------------------
     James William Fletcher (github.com/mrbid)
-        December 2022 - esAux2.h v2.2
+        December 2022 - esAux2.h v2.2.haxed
 --------------------------------------------------
 
     A pretty good color converter: https://www.easyrgb.com/en/convert.php
+
+    !!! I've hacked this version so that opacity now specifies the ambient light amount !!!
 
     Requires:
         - vec.h: https://gist.github.com/mrbid/77a92019e1ab8b86109bf103166bd04e
@@ -160,6 +162,41 @@ GLuint esLoadTextureA(const GLuint w, const GLuint h, const unsigned char* data)
    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
    return textureId;
 }
+
+#ifdef GL_DEBUG
+// https://registry.khronos.org/OpenGL-Refpages/gl4/html/glDebugMessageControl.xhtml
+// https://registry.khronos.org/OpenGL-Refpages/es3/html/glDebugMessageControl.xhtml
+// OpenGL ES 3.2 or OpenGL 4.3 and above only.
+void GLAPIENTRY
+MessageCallback( GLenum source,
+                 GLenum type,
+                 GLuint id,
+                 GLenum severity,
+                 GLsizei length,
+                 const GLchar* message,
+                 const void* userParam )
+{
+    printf("GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+        ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
+        type, severity, message );
+}
+
+void esDebug(const GLuint state)
+{
+    if(state == 1)
+    {
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(MessageCallback, 0);
+        glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
+    }
+    else
+    {
+        glDisable(GL_DEBUG_OUTPUT);
+        glDisable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+    }
+}
+#endif
 
 GLuint debugShader(GLuint shader_program)
 {
