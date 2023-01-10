@@ -20,11 +20,10 @@ _Just move around your mouse and click to release a coin._
 https://snapcraft.io/tuxpusher
 
 ### Linux Binary
-https://github.com/mrbid/tuxpusher/raw/main/tux
+https://github.com/mrbid/TuxPusher/releases/download/Initial-Release/tux
 
-### Windows Binaries
-https://github.com/mrbid/tuxpusher/raw/main/tux.exe<br>
-https://github.com/mrbid/tuxpusher/raw/main/glfw3.dll
+### Windows Binary
+https://github.com/mrbid/TuxPusher/releases/download/Initial-Release/tux_win.zip
 
 ---
 
