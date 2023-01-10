@@ -1044,7 +1044,7 @@ void window_size_callback(GLFWwindow* window, int width, int height)
             aspect = (f32)winw / (f32)winh;
         else
             aspect = (f32)winh / (f32)winw;
-        mPerspective(&projection, 30.0f, aspect, 0.01f, 320.f);
+        mPerspective(&projection, 30.0f, aspect, 0.1f, 320.f);
     }
 }
 
