@@ -773,8 +773,6 @@ void main_loop()
     glUniform1f(opacity_id, 0.148f);
 
     // trophies
-    glUniform3f(color_id, 0.68235f, 0.70196f, 0.72941f);
-
     for(int i=0; i < 3; i++)
     {
         if(coins[i].color == 1)
