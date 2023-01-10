@@ -27,7 +27,7 @@ https://github.com/mrbid/tuxpusher/raw/main/tux.exe<br>
 https://github.com/mrbid/tuxpusher/raw/main/glfw3.dll
 
 ### Debian/Ubuntu Build Instructions
-1. Install Depencency libglfw3
+1. Install depencency libglfw3
 ```
 apt-get install libglfw3-dev
 ```
