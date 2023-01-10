@@ -24,26 +24,26 @@ _Just move around your mouse and click to release a coin._
 ---
 
 ### Debian/Ubuntu Build Instructions
-1. Install depencency libglfw3
+Install depencency libglfw3
 ```
 apt-get install libglfw3-dev
 ```
-2. Clone respository
+Clone respository
 ```
 git clone https://github.com/mrbid/TuxPusher.git;cd TuxPusher
 ```
-3. Compile
+Compile
 ```
 gcc main.c glad_gl.c -I inc -Ofast -lglfw -lm -o tuxpusher
 ```
 or `make` or `./compile.sh`
 
 ### Compiling for other targets
-1. Install dependencies
+Install dependencies
 ```
 apt-get install gcc-mingw-w64-i686-win32
 ```
-2. Execute `./release.sh`
+Execute `./release.sh`
 
 ---
 
