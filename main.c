@@ -49,8 +49,6 @@
     #define NOSSE
 #endif
 
-#define SEIR_RAND
-
 #include "esAux2.h"
 #include "inc/res.h"
 
