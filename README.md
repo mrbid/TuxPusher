@@ -39,7 +39,9 @@ Compile
 gcc main.c glad_gl.c -I inc -Ofast -lglfw -lm -o tuxpusher
 ```
 or `make` or `./compile.sh`
+
 ---
+
 ### SDL2
 Install depencency libsdl2
 ```
