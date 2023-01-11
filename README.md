@@ -24,7 +24,7 @@ _Just move around your mouse and click to release a coin._
 - **Windows Binary (GLFW):** https://github.com/mrbid/TuxPusher/releases/download/1.0/tux_win.zip
 
 ---
-### Debian/Ubuntu Build Instructions
+### Linux Debian/Ubuntu Build Instructions
 ---
 ### GLFW
 Install depencency libglfw3
