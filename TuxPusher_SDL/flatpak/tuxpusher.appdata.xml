@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+	<id type="desktop">tuxpusher.desktop</id>
+	<metadata_license>CC-BY-4.0</metadata_license>
+	<project_license>GPL-2.0-only</project_license>
+	<name>TuxPusher</name>
+	<summary>A fun coin pusher game featuring Tux!</summary>
+	<description>
+		Just move around your mouse and click to release a coin.<br>
+		<ul>
+		<li>Getting a gold coin in a silver slot rewards you 2x silver coins.</li>
+		<li>Getting a gold coin in a gold slot rewards you 2x gold coins.</li>
+		<li>Getting a tux in a slot when you already have the tux gives you 6x gold coins and 6x silver coins.</li>
+		</ul>
+		<b>Left Click</b> = Release coin.<br>
+		<b>Right Click</b> = Show/Hide cursor.<br>
+		<b>C</b> = Orthographic/Perspective.<br>
+		<b>F</b> = FPS to console.<br>
+	</description>
+	<screenshots>
+		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-47-51.png</screenshot>
+		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Untitled-2.jpg</screenshot>
+		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-43-56.png</screenshot>
+		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-47-58.png</screenshot>
+	</screenshots>
+	<url type="homepage">https://github.com/mrbid/TuxPusher</url>
+	<content_rating type="oars-1.0" />
+</application>
