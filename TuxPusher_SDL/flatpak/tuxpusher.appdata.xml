@@ -6,16 +6,22 @@
 	<name>TuxPusher</name>
 	<summary>A fun coin pusher game featuring Tux!</summary>
 	<description>
-		Just move around your mouse and click to release a coin.<br>
+		<p>Gotta pocket 'em all, Linux Tux!</p>
+		<b>Rules</b>
 		<ul>
-		<li>Getting a gold coin in a silver slot rewards you 2x silver coins.</li>
-		<li>Getting a gold coin in a gold slot rewards you 2x gold coins.</li>
-		<li>Getting a tux in a slot when you already have the tux gives you 6x gold coins and 6x silver coins.</li>
+			<li>Getting a gold coin in a silver slot rewards you 2x silver coins.</li>
+			<li>Getting a gold coin in a gold slot rewards you 2x gold coins.</li>
+			<li>Getting a tux in a slot when you already have the tux gives you 6x gold coins and 6x silver coins.</li>
 		</ul>
-		<b>Left Click</b> = Release coin.<br>
-		<b>Right Click</b> = Show/Hide cursor.<br>
-		<b>C</b> = Orthographic/Perspective.<br>
-		<b>F</b> = FPS to console.<br>
+		<b>Controls</b> <i>Just move around your mouse and click to release a coin.</i>
+		<ul>
+			<li><b>Left Click</b> = Release coin.<br></li>
+			<li><b>Right Click</b> = Show/Hide cursor.<br></li>
+			<li><b>C</b> = Orthographic/Perspective.<br></li>
+			<li><b>F</b> = FPS to console.<br></li>
+		</ul>
+		<b>Notes</b> There is a command line option that allows you to set the coin deployment speed, but also every time you "lose" a game, the new round will start with a faster deployment speed than the last, just to keep things exciting. ;)<br>
+		<br><b>WebGL Version:</b> <a href="https://TuxPusher.com">TuxPusher.com</a> / <a href="https://tuxpusher.github.io">tuxpusher.github.io</a>
 	</description>
 	<screenshots>
 		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-47-51.png</screenshot>
