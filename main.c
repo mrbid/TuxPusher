@@ -75,7 +75,6 @@ f32 aspect;
 double x,y,lx,ly;
 double rww, ww, rwh, wh, ww2, wh2;
 double uw, uh, uw2, uh2; // normalised pixel dpi
-double maxfps = 144.0;
 double touch_margin = 120.0;
 double mx=0, my=0;
 uint md=0, ortho=0;
@@ -1058,8 +1057,6 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
                 timestamp(&strts[0]);
                 const double nfps = fc/(t-lfct);
                 printf("[%s] FPS: %g\n", strts, nfps);
-                maxfps = nfps;
-                dt = 1.0f / (float)maxfps;
                 lfct = t;
                 fc = 0;
             }
