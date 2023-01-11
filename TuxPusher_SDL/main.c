@@ -140,7 +140,7 @@ void timestamp(char* ts)
     strftime(ts, 16, "%H:%M:%S", localtime(&tt));
 }
 
-f32 f32Time()
+forceinline f32 f32Time()
 {
     return ((f32)SDL_GetTicks())*0.001f;
 }
