@@ -58,8 +58,8 @@ gcc main.c -I ../inc -lSDL2 -lGLESv2 -lEGL -Ofast -lm -o tuxpusher
 or `make` or `./compile.sh`
 
 ---
-
-## Compiling for other targets
+### Compiling for other targets
+---
 Install dependencies
 ```
 apt-get install gcc-mingw-w64-i686-win32
