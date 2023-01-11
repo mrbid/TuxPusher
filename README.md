@@ -24,8 +24,8 @@ _Just move around your mouse and click to release a coin._
 
 ---
 
-### Debian/Ubuntu Build Instructions
-#### GLFW
+## Debian/Ubuntu Build Instructions
+### GLFW
 Install depencency libglfw3
 ```
 apt-get install libglfw3-dev
@@ -40,7 +40,9 @@ gcc main.c glad_gl.c -I inc -Ofast -lglfw -lm -o tuxpusher
 ```
 or `make` or `./compile.sh`
 
-#### SDL2
+---
+
+### SDL2
 Install depencency libsdl2
 ```
 apt-get install libsdl2-dev
@@ -55,7 +57,9 @@ gcc main.c -I ../inc -lSDL2 -lGLESv2 -lEGL -Ofast -lm -o tuxpusher
 ```
 or `make` or `./compile.sh`
 
-### Compiling for other targets
+---
+
+## Compiling for other targets
 Install dependencies
 ```
 apt-get install gcc-mingw-w64-i686-win32
