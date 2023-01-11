@@ -1153,7 +1153,7 @@ int main(int argc, char** argv)
     printf("James William Fletcher (github.com/mrbid)\n");
     printf("----\n");
     printf("Argv(2): msaa, speed\n");
-    printf("e.g; ./uc 16\n");
+    printf("e.g; ./uc 16 1.6\n");
     printf("----\n");
     printf("Left Click = Release coin\n");
     printf("Right Click = Show/hide cursor\n");
