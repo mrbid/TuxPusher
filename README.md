@@ -29,7 +29,7 @@ _Just move around your mouse and click to release a coin._
 ### GLFW
 Install depencency libglfw3
 ```
-apt-get install libglfw3-dev
+apt-get install libglfw3 libglfw3-dev
 ```
 Clone respository & change directory to TuxPusher
 ```
@@ -46,7 +46,7 @@ or `make` or `./compile.sh`
 ### SDL2
 Install depencency libsdl2
 ```
-apt-get install libsdl2-dev
+apt-get install libsdl2-2.0-0 libsdl2-dev
 ```
 Clone respository & change directory to TuxPusher/TuxPusher_SDL
 ```
@@ -63,7 +63,7 @@ or `make` or `./compile.sh`
 ---
 Install dependencies
 ```
-apt-get install gcc-mingw-w64-i686-win32
+apt-get install gcc-mingw-w64-i686-win32 upx-ucl
 ```
 Execute `./release.sh`
 
