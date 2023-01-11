@@ -27,7 +27,7 @@ _Just move around your mouse and click to release a coin._
 ### Linux Debian/Ubuntu Build Instructions
 ---
 ### GLFW
-Install depencency libglfw3
+Install depencency libglfw3 & libglfw3-dev
 ```
 apt-get install libglfw3 libglfw3-dev
 ```
@@ -44,7 +44,7 @@ or `make` or `./compile.sh`
 ---
 
 ### SDL2
-Install depencency libsdl2
+Install depencency libsdl2-2.0-0 & libsdl2-dev
 ```
 apt-get install libsdl2-2.0-0 libsdl2-dev
 ```
