@@ -23,8 +23,8 @@ _Just move around your mouse and click to release a coin._
 - **Windows Binary:** https://github.com/mrbid/TuxPusher/releases/download/1.0/tux_win.zip
 
 ---
-
-## Debian/Ubuntu Build Instructions
+### Debian/Ubuntu Build Instructions
+---
 ### GLFW
 Install depencency libglfw3
 ```
@@ -39,9 +39,7 @@ Compile
 gcc main.c glad_gl.c -I inc -Ofast -lglfw -lm -o tuxpusher
 ```
 or `make` or `./compile.sh`
-
 ---
-
 ### SDL2
 Install depencency libsdl2
 ```
