@@ -21,7 +21,7 @@
 			<li><b>F</b> = FPS to console.<br></li>
 		</ul>
 		<b>Notes</b> There is a command line option that allows you to set the coin deployment speed, but also every time you "lose" a game, the new round will start with a faster deployment speed than the last, just to keep things exciting. ;)<br>
-		<br><b>WebGL Version:</b> <a href="https://TuxPusher.com">TuxPusher.com</a> / <a href="https://tuxpusher.github.io">tuxpusher.github.io</a>
+		<br><b>WebGL Version:</b> <a href="https://TuxPusher.com">TuxPusher.com</a> or <a href="https://tuxpusher.github.io">tuxpusher.github.io</a>
 	</description>
 	<screenshots>
 		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-47-51.png</screenshot>
