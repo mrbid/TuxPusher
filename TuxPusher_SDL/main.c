@@ -596,8 +596,11 @@ void doPerspective()
         mOrtho(&projection, -5.0f, 5.0f, -3.2f, 3.4f, 0.01f, 320.f);
     else
     {
-        aspect = (f32)winw / (f32)winh;
-        mPerspective(&projection, 30.0f, aspect, 0.01f, 320.f);
+        if(winw > winh)
+            aspect = (f32)winw / (f32)winh;
+        else
+            aspect = (f32)winh / (f32)winw;
+        mPerspective(&projection, 30.0f, aspect, 0.1f, 320.f);
     }
 
 }
