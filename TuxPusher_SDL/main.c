@@ -597,9 +597,9 @@ void doPerspective()
     else
     {
         if(winw > winh)
-            aspect = (f32)winw / (f32)winh;
+            aspect = ww / wh;
         else
-            aspect = (f32)winh / (f32)winw;
+            aspect = wh / ww;
         mPerspective(&projection, 30.0f, aspect, 0.1f, 320.f);
     }
 
