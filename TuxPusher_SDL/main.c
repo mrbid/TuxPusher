@@ -117,7 +117,7 @@ f32 gold_stack = 64.f;  // line 740+ defining these as float32 eliminates the ne
 f32 silver_stack = 64.f;// function due to the use of a float32 also in the for(f32 i;) loop.
 uint active_coin = 0;
 uint inmotion = 0;
-double gameover = 0;
+f32 gameover = 0;
 uint isnewcoin = 0;
 f32 PUSH_SPEED;
 
@@ -505,7 +505,7 @@ void newGame()
     }
 
     // coins
-    const double lt = f32Time();
+    const f32 lt = f32Time();
     for(int i=3; i < MAX_COINS; i++)
     {
         coins[i].x = esRandFloat(-3.40863f, 3.40863f);
@@ -585,9 +585,9 @@ void doPerspective()
     rwh = 1.f/wh;
     ww2 = ww/2.f;
     wh2 = wh/2.f;
-    uw = (double)aspect / ww;
+    uw = aspect / ww;
     uh = 1.f / wh;
-    uw2 = (double)aspect / ww2;
+    uw2 = aspect / ww2;
     uh2 = 1.f / wh2;
 
     mIdent(&projection);
@@ -686,7 +686,7 @@ void main_loop()
                     {
                         char strts[16];
                         timestamp(&strts[0]);
-                        const double nfps = fc/(t-lfct);
+                        const f32 nfps = fc/(t-lfct);
                         printf("[%s] FPS: %g\n", strts, nfps);
                         lfct = t;
                         fc = 0;
