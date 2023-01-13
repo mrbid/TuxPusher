@@ -22,7 +22,7 @@ tuxpusher.o: main.c
 		$(INCLUDE_HEADERS) $(LINK_DEPS) 
 
 install:
-	install -Dm 0755 tuxpusher -t $(PREFIX)
+	install -Dm 0755 tuxpusher -t $(PREFIX)/bin
 
 uninstall:
 	rm $(DESTDIR)/tuxpusher
