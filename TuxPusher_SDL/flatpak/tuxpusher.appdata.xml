@@ -29,5 +29,8 @@
 		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-47-58.png</screenshot>
 	</screenshots>
 	<url type="homepage">https://github.com/mrbid/TuxPusher</url>
+	<releases>
+		<release version="1.0" date="2023-01-13" />
+	</releases>
 	<content_rating type="oars-1.0" />
 </application>
