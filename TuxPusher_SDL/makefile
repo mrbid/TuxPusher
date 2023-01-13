@@ -16,7 +16,7 @@ tuxpusher:
 		$(INCLUDE_HEADERS) $(LINK_DEPS) \
 		-o tuxpusher
 
-install-bin:
+install:
 	cp tuxpusher $(DESTDIR)
 
 uninstall:
