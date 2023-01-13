@@ -13,7 +13,7 @@
 			<li>Getting a gold coin in a gold slot rewards you 2x gold coins.</li>
 			<li>Getting a tux in a slot when you already have the tux gives you 6x gold coins and 6x silver coins.</li>
 		</ul>
-		<p><b>Controls</b> <i>Just move around your mouse and click to release a coin.</i></p>
+		<p>Controls: Just move around your mouse and click to release a coin.</p>
 		<ul>
 			<li>Left Click = Release coin.</li>
 			<li>Right Click = Show/Hide cursor.</li>
