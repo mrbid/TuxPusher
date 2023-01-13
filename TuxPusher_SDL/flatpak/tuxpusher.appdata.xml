@@ -7,7 +7,7 @@
 	<summary>A fun coin pusher game featuring Tux!</summary>
 	<description>
 		<p>Gotta pocket 'em all, Linux Tux! Push the 6 unique Tux figurines into the gold and silver pockets at the end of the pitch before you run out of gold and silver coins! It's always a gamble, and your starting hand is make or break!</p>
-		<p><b>Rules</b></p>
+		<p><b>Rules</b> <i>Game mechanics that will serve you well to know and use to your advantage.</i></p>
 		<ul>
 			<li>Getting a gold coin in a silver slot rewards you 2x silver coins.</li>
 			<li>Getting a gold coin in a gold slot rewards you 2x gold coins.</li>
