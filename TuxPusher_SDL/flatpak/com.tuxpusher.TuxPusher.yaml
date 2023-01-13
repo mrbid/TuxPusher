@@ -1,0 +1,27 @@
+app-id: com.github.mrbid.TuxPusher
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+command: tuxpusher
+rename-icon: tuxpusher
+rename-desktop-file: tuxpusher.desktop
+rename-appdata-file: tuxpusher.appdata.xml
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+modules:
+  - name: tuxpusher
+    buildsystem: simple
+    subdir: TuxPusher_SDL
+    build-commands:
+      - make;make DESTDIR=${FLATPAK_DEST} install
+      - install -Dm 0644 flatpak/tuxpusher.desktop ${FLATPAK_DEST}/share/applications/tuxpusher.desktop
+      - install -Dm 0644 flatpak/tuxpusher.appdata.xml ${FLATPAK_DEST}/share/metainfo/tuxpusher.appdata.xml
+      - install -Dm 0644 flatpak/tuxpusher.png ${FLATPAK_DEST}/share/icons/hicolor/192x192/apps/tuxpusher.png
+    sources:
+      - type: git
+        url: https://github.com/mrbid/TuxPusher.git
+        tag: 1.0.3
+        commit: 8a129f15bcd37c9b91bfa43246a59307807e27e4
