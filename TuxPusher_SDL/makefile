@@ -1,7 +1,8 @@
 CC ?= cc
 INCLUDE_HEADERS = -I ../inc
 LINK_DEPS = -lSDL2 -lGLESv2 -lEGL
-CFLAGS ?= -Ofast 
+CFLAGS ?= -Ofast
+PREFIX ?= $(DESTDIR)
 
 ifneq ($(LDFLAGS),)
 LINK_DEPS += $(LDFLAGS)
@@ -17,7 +18,7 @@ tuxpusher:
 		-o tuxpusher
 
 install:
-	install -Dm 0755 tuxpusher -t $(DESTDIR)
+	install -Dm 0755 tuxpusher -t $(PREFIX)
 
 uninstall:
 	rm $(DESTDIR)/tuxpusher
