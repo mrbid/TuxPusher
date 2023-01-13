@@ -17,7 +17,7 @@ tuxpusher:
 		-o tuxpusher
 
 install:
-	cp tuxpusher $(DESTDIR)
+	install -Dm 0755 tuxpusher -t $(DESTDIR)
 
 uninstall:
 	rm $(DESTDIR)/tuxpusher
