@@ -18,7 +18,7 @@ tuxpusher:
 		-o tuxpusher
 
 install:
-	install -Dm 0755 tuxpusher -t $(PREFIX)
+	install -Dm 0755 tuxpusher -t $(PREFIX)/bin
 
 uninstall:
 	rm $(DESTDIR)/tuxpusher
