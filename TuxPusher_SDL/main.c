@@ -79,7 +79,7 @@ f32 lfct = 0; // last frame count time
 f32 rww, ww, rwh, wh, ww2, wh2;
 f32 uw, uh, uw2, uh2; // normalised pixel dpi
 f32 touch_margin = 120.f;
-f32 mx=0, my=0, md=0;
+Sint32 mx=0, my=0, md=0;
 uint ortho = 0;
 
 // render state id's
