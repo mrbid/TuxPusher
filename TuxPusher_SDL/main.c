@@ -1143,6 +1143,12 @@ SDL_Surface* surfaceFromData(const Uint32* data, Uint32 w, Uint32 h)
     }
     return s;
 }
+void printAttrib(SDL_GLattr attr, char* name)
+{
+    int i;
+    SDL_GL_GetAttribute(attr, &i);
+    printf("%s: %i\n", name, i);
+}
 int main(int argc, char** argv)
 {
     // allow custom msaa level
@@ -1184,8 +1190,18 @@ int main(int argc, char** argv)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
     wnd = SDL_CreateWindow(appTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, winw, winh, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-    SDL_GL_SetSwapInterval(1);
+    if(wnd == NULL)
+    {
+        printf("ERROR: SDL_Init(): %s\n", SDL_GetError());
+        return 1;
+    }
+    SDL_GL_SetSwapInterval(1); // 0 for immediate updates, 1 for updates synchronized with the vertical retrace, -1 for adaptive vsync
     glc = SDL_GL_CreateContext(wnd);
+    if(glc == NULL)
+    {
+        printf("ERROR: SDL_GL_CreateContext(): %s\n", SDL_GetError());
+        return 1;
+    }
 
     // set cursors
     cross_cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_CROSSHAIR);
@@ -1211,6 +1227,46 @@ int main(int argc, char** argv)
 #ifdef GL_DEBUG
     esDebug(1);
 #endif
+    
+    // dump some info
+    printAttrib(SDL_GL_DOUBLEBUFFER, "GL_DOUBLEBUFFER");
+    printAttrib(SDL_GL_DEPTH_SIZE, "GL_DEPTH_SIZE");
+    printAttrib(SDL_GL_RED_SIZE, "GL_RED_SIZE");
+    printAttrib(SDL_GL_GREEN_SIZE, "GL_GREEN_SIZE");
+    printAttrib(SDL_GL_BLUE_SIZE, "GL_BLUE_SIZE");
+    printAttrib(SDL_GL_ALPHA_SIZE, "GL_ALPHA_SIZE");
+    printAttrib(SDL_GL_BUFFER_SIZE, "GL_BUFFER_SIZE");
+    printAttrib(SDL_GL_DOUBLEBUFFER, "GL_DOUBLEBUFFER");
+    printAttrib(SDL_GL_DEPTH_SIZE, "GL_DEPTH_SIZE");
+    printAttrib(SDL_GL_STENCIL_SIZE, "GL_STENCIL_SIZE");
+    printAttrib(SDL_GL_ACCUM_RED_SIZE, "GL_ACCUM_RED_SIZE");
+    printAttrib(SDL_GL_ACCUM_GREEN_SIZE, "GL_ACCUM_GREEN_SIZE");
+    printAttrib(SDL_GL_ACCUM_BLUE_SIZE, "GL_ACCUM_BLUE_SIZE");
+    printAttrib(SDL_GL_ACCUM_ALPHA_SIZE, "GL_ACCUM_ALPHA_SIZE");
+    printAttrib(SDL_GL_STEREO, "GL_STEREO");
+    printAttrib(SDL_GL_MULTISAMPLEBUFFERS, "GL_MULTISAMPLEBUFFERS");
+    printAttrib(SDL_GL_MULTISAMPLESAMPLES, "GL_MULTISAMPLESAMPLES");
+    printAttrib(SDL_GL_ACCELERATED_VISUAL, "GL_ACCELERATED_VISUAL");
+    printAttrib(SDL_GL_RETAINED_BACKING, "GL_RETAINED_BACKING");
+    printAttrib(SDL_GL_CONTEXT_MAJOR_VERSION, "GL_CONTEXT_MAJOR_VERSION");
+    printAttrib(SDL_GL_CONTEXT_MINOR_VERSION, "GL_CONTEXT_MINOR_VERSION");
+    printAttrib(SDL_GL_CONTEXT_FLAGS, "GL_CONTEXT_FLAGS");
+    printAttrib(SDL_GL_CONTEXT_PROFILE_MASK, "GL_CONTEXT_PROFILE_MASK");
+    printAttrib(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, "GL_SHARE_WITH_CURRENT_CONTEXT");
+    printAttrib(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, "GL_FRAMEBUFFER_SRGB_CAPABLE");
+    printAttrib(SDL_GL_CONTEXT_RELEASE_BEHAVIOR, "GL_CONTEXT_RELEASE_BEHAVIOR");
+    printAttrib(SDL_GL_CONTEXT_EGL, "GL_CONTEXT_EGL");
+
+    printf("----\n");
+    
+    SDL_version compiled;
+    SDL_version linked;
+    SDL_VERSION(&compiled);
+    SDL_GetVersion(&linked);
+    printf("Compiled against SDL version %u.%u.%u.\n", compiled.major, compiled.minor, compiled.patch);
+    printf("Linked against SDL version %u.%u.%u.\n", linked.major, linked.minor, linked.patch);
+
+    printf("----\n");
 
 //*************************************
 // bind vertex and index buffers
