@@ -485,7 +485,7 @@ void newGame()
     for(int i=0; i < 3; i++)
     {
         coins[i].color = esRand(1, 6);
-        coins[i].r = 0.24f;
+        coins[i].r = 0.32f;
 
         coins[i].x = esRandFloat(-3.40863f, 3.40863f);
         coins[i].y = esRandFloat(-4.03414f, 1.45439f-coins[i].r);
