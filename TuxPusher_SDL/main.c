@@ -1132,15 +1132,7 @@ void main_loop()
 SDL_Surface* surfaceFromData(const Uint32* data, Uint32 w, Uint32 h)
 {
     SDL_Surface* s = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA32);
-    Uint32 i = 0;
-    for(Uint32 y = 0; y < h; ++y)
-    {
-        for(Uint32 x = 0; x < w; ++x)
-        {
-            const Uint8* pixel = (Uint8*)s->pixels + (y * s->pitch) + (x * s->format->BytesPerPixel);
-            *((Uint32*)pixel) = data[i++];
-        }
-    }
+    memcpy(s->pixels, data, s->pitch*h);
     return s;
 }
 void printAttrib(SDL_GLattr attr, char* name)
