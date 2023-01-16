@@ -30,7 +30,7 @@ _Just move around your mouse and click to release a coin._
 ### GLFW
 Install depencency `libglfw3` & `libglfw3-dev`
 ```
-apt-get install libglfw3 libglfw3-dev
+sudo apt install libglfw3 libglfw3-dev
 ```
 Clone respository & change directory to TuxPusher
 ```
