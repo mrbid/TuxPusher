@@ -1,7 +1,12 @@
 CC ?= cc
 INCLUDE_HEADERS = -I ../inc
-LINK_DEPS = -lSDL2 -lGLESv2 -lEGL -lm
+LINK_DEPS = -lSDL2 -lGLESv2 -lEGL
 CFLAGS ?= -Ofast
+LDFLAGS = -lm
+
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local
+endif
 
 ifneq ($(LDFLAGS),)
 LINK_DEPS += $(LDFLAGS)
