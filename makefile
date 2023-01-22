@@ -30,10 +30,12 @@ minify:
 	upx --lzma --best release/$(PRJ_NAME)_glfw
 
 debify:
+	mkdir -p deb/usr/games
 	cp release/$(PRJ_NAME) deb/usr/games/$(PRJ_NAME)
 	dpkg-deb --build deb release/$(PRJ_NAME).deb
 
 appimage:
+	mkdir -p $(PRJ_NAME).AppDir/usr/bin
 	cp release/$(PRJ_NAME) $(PRJ_NAME).AppDir/usr/bin/$(PRJ_NAME)
 	./appimagetool-x86_64.AppImage $(PRJ_NAME).AppDir release/$(PRJ_NAME)-x86_64.AppImage
 
