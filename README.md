@@ -19,7 +19,7 @@ _Just move around your mouse and click to release a coin._
 ### Play Options
 - **WebGL:** https://TuxPusher.com / https://tuxpusher.github.io
 - **Snapcraft:** https://snapcraft.io/tuxpusher
-- **Other Releases:** https://github.com/mrbid/TuxPusher/releases/tag/1.1
+- **Other Builds:** https://github.com/mrbid/TuxPusher/releases/tag/1.1
 
 ---
 ### Build Instructions
