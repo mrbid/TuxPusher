@@ -1614,8 +1614,14 @@ int main(int argc, char** argv)
 // execute update / render loop
 //*************************************
 
-    // new game
+    // projection
+#ifdef BUILD_GLFW
+    window_size_callback(wnd, winw, winh);
+#else
     doPerspective();
+#endif
+
+    // new game
     newGame();
     
     // init
