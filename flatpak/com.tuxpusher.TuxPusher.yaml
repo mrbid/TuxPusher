@@ -23,4 +23,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/mrbid/TuxPusher.git
-        commit: 2838ffb462a9285cc247791544301d7b9d82d201
+        commit: 6bba5c1e657ac42baca3c04a8705395e4cf03e2b
