@@ -593,18 +593,18 @@ void doPerspective()
 {
     glViewport(0, 0, winw, winh);
 
-    ww = winw;
-    wh = winh;
+    ww = (f32)winw;
+    wh = (f32)winh;
     if(ortho == 1){touch_margin = ww*0.3076923192f;}
     else{touch_margin = ww*0.2058590651f;}
     rww = 1.f/(ww-touch_margin*2.f);
     rwh = 1.f/wh;
     ww2 = ww/2.f;
     wh2 = wh/2.f;
-    uw = aspect / ww;
-    uh = 1.f / wh;
-    uw2 = aspect / ww2;
-    uh2 = 1.f / wh2;
+    uw = aspect/ww;
+    uh = 1.f/wh;
+    uw2 = aspect/ww2;
+    uh2 = 1.f/wh2;
 
     mIdent(&projection);
 
