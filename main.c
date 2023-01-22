@@ -130,7 +130,7 @@ f32 gold_stack = 64.f;  // line 740+ defining these as float32 eliminates the ne
 f32 silver_stack = 64.f;// function due to the use of a float32 also in the for(f32 i;) loop.
 uint active_coin = 0;
 uint inmotion = 0;
-f32 gameover = 0;
+f32 gameover = 0.f;
 uint isnewcoin = 0;
 f32 PUSH_SPEED = 1.6f;
 
@@ -177,7 +177,7 @@ void setActiveCoin(const uint color)
 
 void takeStack()
 {
-    if(gameover == 0)
+    if(gameover == 0.f)
     {
         if(silver_stack != 0.f)
         {
@@ -493,7 +493,7 @@ void newGame()
     silver_stack = 64.f;
     active_coin = 0;
     inmotion = 0;
-    gameover = 0;
+    gameover = 0.f;
     trophies[0] = 0;
     trophies[1] = 0;
     trophies[2] = 0;
@@ -654,9 +654,9 @@ void main_loop()
         {
             if(inmotion == 0 && event.button.button == SDL_BUTTON_LEFT)
             {
-                if(gameover > 0)
+                if(gameover > 0.f)
                 {
-                    if(f32Time() > gameover+3.0)
+                    if(f32Time() > gameover+3.0f)
                     {
                         newGame();
                         if(PUSH_SPEED < 32.f)
@@ -786,14 +786,14 @@ void main_loop()
     // detect gameover
     if(gold_stack < 0.f){gold_stack = 0.f;}
     if(silver_stack < 0.f){silver_stack = 0.f;}
-    if(gameover > 0 && (gold_stack != 0.f || silver_stack != 0.f))
+    if(gameover > 0.f && (gold_stack != 0.f || silver_stack != 0.f))
     {
-        gameover = 0;
+        gameover = 0.f;
     }
     else if(gold_stack == 0.f && silver_stack == 0.f)
     {
-        if(gameover == 0)
-            gameover = t+3.0;
+        if(gameover == 0.f)
+            gameover = t+3.0f;
     }
 
     // prep pieces for rendering
@@ -1195,7 +1195,7 @@ void main_loop()
     }
 
     // render game over
-    if(gameover > 0 && t > gameover)
+    if(gameover > 0.f && t > gameover)
     {
         shadeLambert1(&position_id, &projection_id, &modelview_id, &lightpos_id, &normal_id, &color_id, &opacity_id);
         glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*) &projection.m[0][0]);
@@ -1247,9 +1247,9 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     {
         if(inmotion == 0 && button == GLFW_MOUSE_BUTTON_LEFT)
         {
-            if(gameover > 0)
+            if(gameover > 0.f)
             {
-                if(glfwGetTime() > gameover+3.0)
+                if(glfwGetTime() > gameover+3.0f)
                 {
                     newGame();
                     if(PUSH_SPEED < 32.f)
