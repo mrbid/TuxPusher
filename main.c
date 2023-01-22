@@ -1620,6 +1620,7 @@ int main(int argc, char** argv)
     
     // init
     t = f32Time();
+    lfct = t;
 
     // event loop
 #ifdef BUILD_GLFW
@@ -1630,7 +1631,6 @@ int main(int argc, char** argv)
         fc++;
     }
 #else
-    lfct = t;
     while(1){main_loop();fc++;}
 #endif
 
