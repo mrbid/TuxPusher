@@ -618,7 +618,6 @@ void doPerspective()
             aspect = wh / ww;
         mPerspective(&projection, 30.0f, aspect, 0.1f, 320.f);
     }
-
 }
 
 //*************************************
