@@ -24,48 +24,23 @@ _Just move around your mouse and click to release a coin._
 - **Windows Binary (GLFW):** https://github.com/mrbid/TuxPusher/releases/download/1.0/tux_win.zip
 
 ---
-### Linux Debian/Ubuntu Build Instructions
+### Build Instructions
 ---
-### GLFW
-Install depencency `libglfw3` & `libglfw3-dev`
+## Simple *(generates all builds)*
 ```
-sudo apt install libglfw3 libglfw3-dev
+sudo ./getdeps.sh
+make
 ```
-Clone respository & change directory to TuxPusher
-```
-git clone https://github.com/mrbid/TuxPusher.git;cd TuxPusher
-```
-Compile
-```
-gcc main.c glad_gl.c -I inc -Ofast -lglfw -lm -o tuxpusher
-```
-or `make` or `./compile.sh`
-
----
-
-### SDL2
-Install depencency `libsdl2-2.0-0` & `libsdl2-dev`
+## Manual Linux SDL
 ```
 sudo apt install libsdl2-2.0-0 libsdl2-dev
+cc main.c -I inc -lSDL2 -lGLESv2 -lEGL -Ofast -lm -o release/tuxpusher
 ```
-Clone respository & change directory to TuxPusher/TuxPusher_SDL
+## Manual Linux GLFW
 ```
-git clone https://github.com/mrbid/TuxPusher.git;cd TuxPusher/TuxPusher_SDL
+sudo apt install libglfw3 libglfw3-dev
+cc -DBUILD_GLFW main.c glad_gl.c -I inc -Ofast -lglfw -lm -o release/tuxpusher
 ```
-Compile
-```
-gcc main.c -I ../inc -lSDL2 -lGLESv2 -lEGL -Ofast -lm -o tuxpusher
-```
-or `make` or `./compile.sh`
-
----
-### Compiling for other targets
----
-Install dependencies
-```
-sudo apt install gcc-mingw-w64-i686-win32 upx-ucl
-```
-Execute `./release.sh`
 
 ---
 
