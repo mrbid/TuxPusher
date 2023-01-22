@@ -1,0 +1,7 @@
+Package: TuxPusher
+Version: 1.0
+Section: games
+Priority: optional
+Architecture: amd64
+Description: A fun coin pusher game featuring Tux!
+Maintainer: James William Fletcher <tux@tuxpusher.com>

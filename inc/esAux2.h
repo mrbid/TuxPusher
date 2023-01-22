@@ -163,7 +163,7 @@ GLuint esLoadTextureA(const GLuint w, const GLuint h, const unsigned char* data)
    return textureId;
 }
 
-#ifdef GL_DEBUG
+#if defined(GL_DEBUG) && !defined(__MINGW32__)
 // https://registry.khronos.org/OpenGL-Refpages/gl4/html/glDebugMessageControl.xhtml
 // https://registry.khronos.org/OpenGL-Refpages/es3/html/glDebugMessageControl.xhtml
 // OpenGL ES 3.2 or OpenGL 4.3 and above only.

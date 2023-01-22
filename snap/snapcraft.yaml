@@ -1,6 +1,6 @@
 name: tuxpusher
 base: core20
-version: '1.0'
+version: '1.2'
 summary: A fun coin pusher game featuring Tux!
 description: |
   Just move around your mouse and click to release a coin.
@@ -42,6 +42,7 @@ parts:
     source: https://github.com/mrbid/tuxpusher
     source-type: git
     plugin: make
+    source-subdir: snap
     build-packages:
     - libglfw3-dev
     stage-packages:
