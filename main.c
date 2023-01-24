@@ -48,6 +48,7 @@
 
 #include "assets/scene.h"
 #include "assets/coin.h"
+#include "assets/coin_silver.h"
 #include "assets/tux.h"
 #include "assets/evil.h"
 #include "assets/king.h"
@@ -112,9 +113,11 @@ mat modelview;
 vec lightpos = {0.f, 10.f, 13.f};
 
 // models
+ESModel mdlPlane;
 ESModel mdlGameover;
 ESModel mdlScene;
 ESModel mdlCoin;
+ESModel mdlCoinSilver;
 ESModel mdlTux;
 ESModel mdlEvil;
 ESModel mdlKing;
@@ -510,7 +513,7 @@ void newGame()
     for(int i=0; i < 3; i++)
     {
         coins[i].color = esRand(1, 6);
-        coins[i].r = 0.32f;
+        coins[i].r = 0.36f;
 
         coins[i].x = esRandFloat(-3.40863f, 3.40863f);
         coins[i].y = esRandFloat(-4.03414f, 1.45439f-coins[i].r);
@@ -564,10 +567,6 @@ forceinline void modelBind1(const ESModel* mdl)
     glBindBuffer(GL_ARRAY_BUFFER, mdl->vid);
     glVertexAttribPointer(position_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(position_id);
-
-    glBindBuffer(GL_ARRAY_BUFFER, mdl->nid);
-    glVertexAttribPointer(normal_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(normal_id);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mdl->iid);
 }
@@ -796,93 +795,16 @@ void main_loop()
             gameover = t+3.0f;
     }
 
-    // prep pieces for rendering
-    shadeLambert1(&position_id, &projection_id, &modelview_id, &lightpos_id, &normal_id, &color_id, &opacity_id);
-    glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*) &projection.m[0][0]);
-    glUniform3f(lightpos_id, lightpos.x, lightpos.y, lightpos.z);
-
-    // render scene props
-    const f32 std = t-rst;
-    if(std < 6.75f)
-    {
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
-        glUniform1f(opacity_id, 0.f);
-
-        // if((std > 0.5f && std < 1.f) || (std > 1.5f && std < 2.f))
-        // {
-        //     glUniform3f(color_id, 0.89f, 0.f, 0.157f);
-        //     modelBind1(&mdlRX);
-        //     glDrawElements(GL_TRIANGLES, rx_numind, GL_UNSIGNED_BYTE, 0);
-        // }
-
-        // if((std > 2.5f && std < 3.f) || (std > 3.5f && std < 4.f))
-        // {
-        //     glUniform3f(color_id, 0.714f, 0.741f, 0.8f);
-        //     modelBind1(&mdlSA);
-        //     glDrawElements(GL_TRIANGLES, sa_numind, GL_UNSIGNED_BYTE, 0);
-        // }
-
-        // if((std > 4.5f && std < 5.f) || (std > 5.5f && std < 6.f))
-        // {
-        //     glUniform3f(color_id, 0.698f, 0.667f, 0.263f);
-        //     modelBind1(&mdlGA);
-        //     glDrawElements(GL_TRIANGLES, ga_numind, GL_UNSIGNED_BYTE, 0);
-        // }
-
-        if((std > 1.5f && std < 2.f) || (std > 2.5f && std < 3.f) || (std > 3.5f && std < 4.f))
-        {
-            glUniform3f(color_id, 0.89f, 0.f, 0.157f);
-            modelBind1(&mdlRX);
-            glDrawElements(GL_TRIANGLES, rx_numind, GL_UNSIGNED_BYTE, 0);
-        }
-
-        if((std > 4.5f && std < 4.75f) || (std > 5.f && std < 5.25f))
-        {
-            modelBind1(&mdlSA);
-
-            mIdent(&model);
-            mTranslate(&model, -0.01f, 0.01f, 0.f);
-            mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-            glUniform3f(color_id, 0.f, 0.f, 0.f);
-            glDrawElements(GL_TRIANGLES, sa_numind, GL_UNSIGNED_BYTE, 0);
-            
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
-            glUniform3f(color_id, 0.714f, 0.741f, 0.8f);
-            glDrawElements(GL_TRIANGLES, sa_numind, GL_UNSIGNED_BYTE, 0);
-        }
-
-        // if((std > 5.f && std < 5.25f) || (std > 5.5f && std < 6.25f)) // || (std > 7.5f && std < 8.f))
-        // {
-        //     //0.52941f, 0.80784f, 0.92157f
-        //     f32 step = (std-5.75f)*2.f;
-        //     if(step < 0.f){step = 0.f;}
-        //     glUniform3f(color_id, 0.698f - (0.16859f * step), 0.667f + (0.14084f * step), 0.263f + (0.65857f * step));
-        //     modelBind1(&mdlGA);
-        //     glDrawElements(GL_TRIANGLES, ga_numind, GL_UNSIGNED_BYTE, 0);
-        // }
-
-        if((std > 5.5f && std < 5.75f) || (std > 6.f && std < 6.75f)) // || (std > 7.5f && std < 8.f))
-        {
-            f32 step = (std-6.25f)*2.f;
-            if(step < 0.f){step = 0.f;}
-            glUniform3f(color_id, 0.698f - (0.16859f * step), 0.667f + (0.14084f * step), 0.263f + (0.65857f * step));
-            modelBind1(&mdlGA);
-            glDrawElements(GL_TRIANGLES, ga_numind, GL_UNSIGNED_BYTE, 0);
-        }
-    }
-
     // coin
     glUniform1f(opacity_id, 0.148f);
-    modelBind1(&mdlCoin);
 
     // targeting coin
     if(gold_stack > 0.f || silver_stack > 0.f)
     {
         if(coins[active_coin].color == 1)
-            glUniform3f(color_id, 0.76471f, 0.63529f, 0.18824f);
+            modelBind3(&mdlCoinSilver);
         else
-            glUniform3f(color_id, 0.68235f, 0.70196f, 0.72941f);
+            modelBind3(&mdlCoin);
         if(md == 1)
         {
             if(mx < touch_margin)
@@ -904,11 +826,12 @@ void main_loop()
         else if(inmotion == 0)
         {
             if(silver_stack > 0.f)
-                glUniform3f(color_id, 0.68235f, 0.70196f, 0.72941f);
+                modelBind3(&mdlCoinSilver);
             else
-                glUniform3f(color_id, 0.76471f, 0.63529f, 0.18824f);
+                modelBind3(&mdlCoin);
 
             mIdent(&model);
+            mScale(&model, 1.f, 1.f, 2.f);
 
             if(mx < touch_margin)
                 mTranslate(&model, -1.90433f, -4.54055f, 0);
@@ -949,7 +872,7 @@ void main_loop()
     }
 
     // gold stack
-    glUniform3f(color_id, 0.76471f, 0.63529f, 0.18824f);
+    modelBind3(&mdlCoin);
     f32 gss = gold_stack;
     if(silver_stack == 0.f){gss -= 1.f;}
     if(gss < 0.f){gss = 0.f;}
@@ -957,25 +880,25 @@ void main_loop()
     {
         mIdent(&model);
         if(ortho == 0)
-            mTranslate(&model, -2.62939f, -4.54055f, 0.0406f*i);
+            mTranslate(&model, -2.62939f, -4.54055f, 0.033f*i);
         else
-            mTranslate(&model, -4.62939f, -4.54055f, 0.0406f*i);
+            mTranslate(&model, -4.62939f, -4.54055f, 0.033f*i);
         mMul(&modelview, &model, &view);
         glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
         glDrawElements(GL_TRIANGLES, coin_numind, GL_UNSIGNED_SHORT, 0);
     }
 
     // silver stack
-    glUniform3f(color_id, 0.68235f, 0.70196f, 0.72941f);
+    modelBind3(&mdlCoinSilver);
     f32 sss = silver_stack-1.f;
     if(sss < 0.f){sss = 0.f;}
     for(f32 i = 0.f; i < sss; i += 1.f)
     {
         mIdent(&model);
         if(ortho == 0)
-            mTranslate(&model, 2.62939f, -4.54055f, 0.0406f*i);
+            mTranslate(&model, 2.62939f, -4.54055f, 0.033f*i);
         else
-            mTranslate(&model, 4.62939f, -4.54055f, 0.0406f*i);
+            mTranslate(&model, 4.62939f, -4.54055f, 0.033f*i);
         mMul(&modelview, &model, &view);
         glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
         glDrawElements(GL_TRIANGLES, coin_numind, GL_UNSIGNED_SHORT, 0);
@@ -988,11 +911,12 @@ void main_loop()
             continue;
         
         if(coins[i].color == 0)
-            glUniform3f(color_id, 0.68235f, 0.70196f, 0.72941f);
+            modelBind3(&mdlCoinSilver);
         else
-            glUniform3f(color_id, 0.76471f, 0.63529f, 0.18824f);
+            modelBind3(&mdlCoin);
 
         mIdent(&model);
+        mScale(&model, 1.f, 1.f, 2.f);
         mTranslate(&model, coins[i].x, coins[i].y, 0.f);
         mMul(&modelview, &model, &view);
         glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
@@ -1194,16 +1118,66 @@ void main_loop()
         glDrawElements(GL_TRIANGLES, trip_numind, GL_UNSIGNED_SHORT, 0);
     }
 
+    // render scene props
+    shadeFullbright(&position_id, &projection_id, &modelview_id, &color_id, &opacity_id);
+    glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*) &projection.m[0][0]);
+    glUniform3f(lightpos_id, lightpos.x, lightpos.y, lightpos.z);
+
+    const f32 std = t-rst;
+    if(std < 6.75f)
+    {
+        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+        glUniform1f(opacity_id, 0.f);
+
+        if((std > 1.5f && std < 2.f) || (std > 2.5f && std < 3.f) || (std > 3.5f && std < 4.f))
+        {
+            glUniform3f(color_id, 0.89f, 0.f, 0.157f);
+            modelBind1(&mdlRX);
+            glDrawElements(GL_TRIANGLES, rx_numind, GL_UNSIGNED_BYTE, 0);
+        }
+
+        if((std > 4.5f && std < 4.75f) || (std > 5.f && std < 5.25f))
+        {
+            modelBind1(&mdlSA);
+
+            mIdent(&model);
+            mTranslate(&model, -0.01f, 0.01f, 0.f);
+            mMul(&modelview, &model, &view);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniform3f(color_id, 0.f, 0.f, 0.f);
+            glDrawElements(GL_TRIANGLES, sa_numind, GL_UNSIGNED_BYTE, 0);
+            
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+            glUniform3f(color_id, 0.714f, 0.741f, 0.8f);
+            glDrawElements(GL_TRIANGLES, sa_numind, GL_UNSIGNED_BYTE, 0);
+        }
+
+        if((std > 5.5f && std < 5.75f) || (std > 6.f && std < 6.75f))
+        {
+            f32 step = (std-6.25f)*2.f;
+            if(step < 0.f){step = 0.f;}
+            glUniform3f(color_id, 0.698f - (0.16859f * step), 0.667f + (0.14084f * step), 0.263f + (0.65857f * step));
+            modelBind1(&mdlGA);
+            glDrawElements(GL_TRIANGLES, ga_numind, GL_UNSIGNED_BYTE, 0);
+        }
+    }
+
     // render game over
     if(gameover > 0.f && t > gameover)
     {
-        shadeLambert1(&position_id, &projection_id, &modelview_id, &lightpos_id, &normal_id, &color_id, &opacity_id);
-        glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*) &projection.m[0][0]);
-        glUniform3f(lightpos_id, lightpos.x, lightpos.y, lightpos.z);
-
-        modelBind1(&mdlGameover);
-
         glDisable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+
+        modelBind1(&mdlPlane);
+        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+        glUniform3f(color_id, 0.f, 0.f, 0.f);
+        f32 opa = t-gameover;
+        if(opa > 0.8f){opa = 0.8f;}
+        glUniform1f(opacity_id, opa);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
+        
+        glUniform1f(opacity_id, 0.5f);
+        modelBind1(&mdlGameover);
 
         mIdent(&model);
         mTranslate(&model, -0.01f, 0.01f, 0.01f);
@@ -1223,9 +1197,11 @@ void main_loop()
         glUniform3f(color_id, fabsf(cosf(ts)), fabsf(sinf(ts)), fabsf(cosf(ts)));
         glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
         glDrawElements(GL_TRIANGLES, gameover_numind, GL_UNSIGNED_SHORT, 0);
-
+        
+        glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
     }
+
 
 //*************************************
 // swap buffers / display render
@@ -1527,6 +1503,12 @@ int main(int argc, char** argv)
 // bind vertex and index buffers
 //*************************************
 
+    // ***** PLANE *****
+    const GLfloat plane_vert[] = {13,0,-13, -13,0,13, -13,0,-13, 13,0,13};
+    const GLubyte plane_indi[] = {0,1,2,0,3,1};
+    esBind(GL_ARRAY_BUFFER, &mdlPlane.vid, plane_vert, sizeof(plane_vert), GL_STATIC_DRAW);
+    esBind(GL_ELEMENT_ARRAY_BUFFER, &mdlPlane.iid, plane_indi, sizeof(plane_indi), GL_STATIC_DRAW);
+
     // ***** BIND SCENE *****
     esBind(GL_ARRAY_BUFFER, &mdlScene.cid, scene_colors, sizeof(scene_colors), GL_STATIC_DRAW);
     esBind(GL_ARRAY_BUFFER, &mdlScene.vid, scene_vertices, sizeof(scene_vertices), GL_STATIC_DRAW);
@@ -1535,13 +1517,19 @@ int main(int argc, char** argv)
 
     // ***** BIND GAMEOVER *****
     esBind(GL_ARRAY_BUFFER, &mdlGameover.vid, gameover_vertices, sizeof(gameover_vertices), GL_STATIC_DRAW);
-    esBind(GL_ARRAY_BUFFER, &mdlGameover.nid, gameover_normals, sizeof(gameover_normals), GL_STATIC_DRAW);
     esBind(GL_ELEMENT_ARRAY_BUFFER, &mdlGameover.iid, gameover_indices, sizeof(gameover_indices), GL_STATIC_DRAW);
 
     // ***** BIND COIN *****
+    esBind(GL_ARRAY_BUFFER, &mdlCoin.cid, coin_colors, sizeof(coin_colors), GL_STATIC_DRAW);
     esBind(GL_ARRAY_BUFFER, &mdlCoin.vid, coin_vertices, sizeof(coin_vertices), GL_STATIC_DRAW);
     esBind(GL_ARRAY_BUFFER, &mdlCoin.nid, coin_normals, sizeof(coin_normals), GL_STATIC_DRAW);
     esBind(GL_ELEMENT_ARRAY_BUFFER, &mdlCoin.iid, coin_indices, sizeof(coin_indices), GL_STATIC_DRAW);
+
+    // ***** BIND COIN SILVER *****
+    esBind(GL_ARRAY_BUFFER, &mdlCoinSilver.cid, coin_silver_colors, sizeof(coin_silver_colors), GL_STATIC_DRAW);
+    esBind(GL_ARRAY_BUFFER, &mdlCoinSilver.vid, coin_silver_vertices, sizeof(coin_silver_vertices), GL_STATIC_DRAW);
+    esBind(GL_ARRAY_BUFFER, &mdlCoinSilver.nid, coin_silver_normals, sizeof(coin_silver_normals), GL_STATIC_DRAW);
+    esBind(GL_ELEMENT_ARRAY_BUFFER, &mdlCoinSilver.iid, coin_silver_indices, sizeof(coin_silver_indices), GL_STATIC_DRAW);
 
     // ***** BIND TUX *****
     esBind(GL_ARRAY_BUFFER, &mdlTux.cid, tux_colors, sizeof(tux_colors), GL_STATIC_DRAW);
@@ -1581,24 +1569,21 @@ int main(int argc, char** argv)
 
     // ***** BIND SCENE PROP - RED X *****
     esBind(GL_ARRAY_BUFFER, &mdlRX.vid, rx_vertices, sizeof(rx_vertices), GL_STATIC_DRAW);
-    esBind(GL_ARRAY_BUFFER, &mdlRX.nid, rx_normals, sizeof(rx_normals), GL_STATIC_DRAW);
     esBind(GL_ELEMENT_ARRAY_BUFFER, &mdlRX.iid, rx_indices, sizeof(rx_indices), GL_STATIC_DRAW);
 
     // ***** BIND SCENE PROP - SILVER ARROW *****
     esBind(GL_ARRAY_BUFFER, &mdlSA.vid, sa_vertices, sizeof(sa_vertices), GL_STATIC_DRAW);
-    esBind(GL_ARRAY_BUFFER, &mdlSA.nid, sa_normals, sizeof(sa_normals), GL_STATIC_DRAW);
     esBind(GL_ELEMENT_ARRAY_BUFFER, &mdlSA.iid, sa_indices, sizeof(sa_indices), GL_STATIC_DRAW);
 
     // ***** BIND SCENE PROP - GOLD ARROW *****
     esBind(GL_ARRAY_BUFFER, &mdlGA.vid, ga_vertices, sizeof(ga_vertices), GL_STATIC_DRAW);
-    esBind(GL_ARRAY_BUFFER, &mdlGA.nid, ga_normals, sizeof(ga_normals), GL_STATIC_DRAW);
     esBind(GL_ELEMENT_ARRAY_BUFFER, &mdlGA.iid, ga_indices, sizeof(ga_indices), GL_STATIC_DRAW);
 
 //*************************************
 // compile & link shader program
 //*************************************
 
-    makeLambert1();
+    makeFullbright();
     makeLambert3();
 
 //*************************************
@@ -1607,6 +1592,7 @@ int main(int argc, char** argv)
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.52941f, 0.80784f, 0.92157f, 0.0f);
 
 //*************************************

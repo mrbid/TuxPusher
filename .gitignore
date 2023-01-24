@@ -1,0 +1,4 @@
+release/*
+tuxpusher.AppDir/usr/bin/*
+deb/usr/games/*
+appimagetool-x86_64.AppImage
