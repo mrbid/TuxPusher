@@ -43,6 +43,8 @@
     #define NOSSE
 #endif
 
+//#define FAST_RAND // if you want that little bit more performance
+
 #include "esAux2.h"
 #include "res.h"
 
@@ -157,6 +159,24 @@ void timestamp(char* ts)
     strftime(ts, 16, "%H:%M:%S", localtime(&tt));
 }
 
+forceinline f32 fRandFloat(const f32 min, const f32 max)
+{
+#ifdef FAST_RAND
+    return min + randf() * (max-min);
+#else
+    return esRandFloat(min, max);
+#endif
+}
+
+forceinline int fRand(const f32 min, const f32 max)
+{
+#ifdef FAST_RAND
+    return (int)((min + randf() * (max-min))+0.5f);
+#else
+    return esRand(min, max);
+#endif
+}
+
 forceinline f32 f32Time()
 {
 #ifdef BUILD_GLFW
@@ -231,14 +251,14 @@ void injectFigure()
         {
             active_coin = i;
             fcn = i;
-            coins[i].color = esRand(1, 6);
+            coins[i].color = fRand(1, 6);
             break;
         }
     }
 
     if(fcn != -1)
     {
-        coins[active_coin].x = esRandFloat(-1.90433f, 1.90433f);
+        coins[active_coin].x = fRandFloat(-1.90433f, 1.90433f);
         coins[active_coin].y = -4.54055f;
         inmotion = 1;
     }
@@ -300,7 +320,7 @@ uint stepCollisions()
         {
             if(i == j || coins[j].color == -1 || j == active_coin){continue;}
             f32 xm = (coins[i].x - coins[j].x);
-            xm += esRandFloat(-0.01f, 0.01f); // add some random offset to our unit vector, very subtle but works so well!
+            xm += fRandFloat(-0.01f, 0.01f); // add some random offset to our unit vector, very subtle but works so well!
             const f32 ym = (coins[i].y - coins[j].y);
             f32 d = xm*xm + ym*ym;
             const f32 cr = coins[i].r+coins[j].r;
@@ -513,15 +533,15 @@ void newGame()
     // trophies
     for(int i=0; i < 3; i++)
     {
-        coins[i].color = esRand(1, 6);
+        coins[i].color = fRand(1, 6);
         coins[i].r = 0.36f;
 
-        coins[i].x = esRandFloat(-3.40863f, 3.40863f);
-        coins[i].y = esRandFloat(-4.03414f, 1.45439f-coins[i].r);
+        coins[i].x = fRandFloat(-3.40863f, 3.40863f);
+        coins[i].y = fRandFloat(-4.03414f, 1.45439f-coins[i].r);
         while(insidePitch(coins[i].x, coins[i].y, coins[i].r) == 0 || collision(i) == 1)
         {
-            coins[i].x = esRandFloat(-3.40863f, 3.40863f);
-            coins[i].y = esRandFloat(-4.03414f, 1.45439f-coins[i].r);
+            coins[i].x = fRandFloat(-3.40863f, 3.40863f);
+            coins[i].y = fRandFloat(-4.03414f, 1.45439f-coins[i].r);
         }
     }
 
@@ -529,31 +549,31 @@ void newGame()
     const f32 lt = f32Time();
     for(int i=3; i < MAX_COINS; i++)
     {
-        coins[i].x = esRandFloat(-3.40863f, 3.40863f);
-        coins[i].y = esRandFloat(-4.03414f, 1.45439f-coins[i].r);
+        coins[i].x = fRandFloat(-3.40863f, 3.40863f);
+        coins[i].y = fRandFloat(-4.03414f, 1.45439f-coins[i].r);
         uint tl = 0;
         while(insidePitch(coins[i].x, coins[i].y, coins[i].r) == 0 || collision(i) == 1)
         {
-            coins[i].x = esRandFloat(-3.40863f, 3.40863f);
-            coins[i].y = esRandFloat(-4.03414f, 1.45439f-coins[i].r);
+            coins[i].x = fRandFloat(-3.40863f, 3.40863f);
+            coins[i].y = fRandFloat(-4.03414f, 1.45439f-coins[i].r);
             if(f32Time()-lt > 0.033){tl=1;break;} // 33ms timeout
         }
         if(tl==1){break;}
-        coins[i].color = esRand(0, 4);
+        coins[i].color = fRand(0, 4);
         if(coins[i].color > 1){coins[i].color = 0;}
     }
 
     // const int mc2 = MAX_COINS/2;
     // for(int i=3; i < mc2; i++)
     // {
-    //     coins[i].x = esRandFloat(-3.40863f, 3.40863f);
-    //     coins[i].y = esRandFloat(-4.03414f, 1.45439f-coins[i].r);
+    //     coins[i].x = fRandFloat(-3.40863f, 3.40863f);
+    //     coins[i].y = fRandFloat(-4.03414f, 1.45439f-coins[i].r);
     //     while(insidePitch(coins[i].x, coins[i].y, coins[i].r) == 0 || collision(i) == 1)
     //     {
-    //         coins[i].x = esRandFloat(-3.40863f, 3.40863f);
-    //         coins[i].y = esRandFloat(-4.03414f, 1.45439f-coins[i].r);
+    //         coins[i].x = fRandFloat(-3.40863f, 3.40863f);
+    //         coins[i].y = fRandFloat(-4.03414f, 1.45439f-coins[i].r);
     //     }
-    //     coins[i].color = esRand(0, 4);
+    //     coins[i].color = fRand(0, 4);
     //     if(coins[i].color > 1){coins[i].color = 0;}
     // }
 
