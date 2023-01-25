@@ -1409,7 +1409,7 @@ int main(int argc, char** argv)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
         glfwWindowHint(GLFW_SAMPLES, msaa);
-        wnd = glfwCreateWindow(winw, winh, "TuxPusher", NULL, NULL);
+        wnd = glfwCreateWindow(winw, winh, appTitle, NULL, NULL);
         if(!wnd)
         {
             printf("glfwCreateWindow() failed.\n");
