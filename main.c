@@ -1374,7 +1374,7 @@ int main(int argc, char** argv)
 
     // help
     printf("----\n");
-    printf("TuxPusher\n");
+    printf("TuxPusher.com\n");
     printf("----\n");
     printf("James William Fletcher (github.com/mrbid)\n");
     printf("----\n");
