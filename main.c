@@ -43,7 +43,9 @@
     #define NOSSE
 #endif
 
-//#define FAST_RAND // if you want that little bit more performance
+// uncomment these if you want that little bit more performance
+//#define SEIR_RAND
+//#define FAST_RAND
 
 #include "esAux2.h"
 #include "res.h"
