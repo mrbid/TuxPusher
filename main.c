@@ -221,7 +221,6 @@ void takeStack()
             setActiveCoin(1);
             inmotion = 1;
         }
-
         if(inmotion == 1)
         {
             if(mx < touch_margin)
@@ -710,10 +709,7 @@ void main_loop()
         else if(event.type == SDL_MOUSEBUTTONUP)
         {
             if(event.button.button == SDL_BUTTON_LEFT)
-            {
-                inmotion = 1;
                 md = 0;
-            }
         }
         else if(event.type == SDL_KEYDOWN)
         {
@@ -834,25 +830,7 @@ void main_loop()
             modelBind3(&mdlCoinSilver);
         else
             modelBind3(&mdlCoin);
-        if(md == 1)
-        {
-            if(mx < touch_margin)
-            {
-                coins[active_coin].x = -1.90433f;
-                coins[active_coin].y = -4.54055f;
-            }
-            else if(mx > ww-touch_margin)
-            {
-                coins[active_coin].x = 1.90433f;
-                coins[active_coin].y = -4.54055f;
-            }
-            else
-            {
-                coins[active_coin].x = -1.90433f+(((mx-touch_margin)*rww)*3.80866f);
-                coins[active_coin].y = -4.54055f;
-            }
-        }
-        else if(inmotion == 0)
+        if(inmotion == 0)
         {
             if(silver_stack > 0.f)
                 modelBind3(&mdlCoinSilver);
@@ -1287,10 +1265,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     else if(action == GLFW_RELEASE)
     {
         if(button == GLFW_MOUSE_BUTTON_LEFT)
-        {
-            inmotion = 1;
             md = 0;
-        }
     }
 }
 
