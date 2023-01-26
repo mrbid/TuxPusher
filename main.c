@@ -1007,7 +1007,7 @@ void main_loop()
             
             glUniform1f(opacity_id, 0.4f);
             modelBind3(&mdlSurf);
-            glDrawElements(GL_TRIANGLES, surf_numind, GL_UNSIGNED_BYTE, 0);
+            glDrawElements(GL_TRIANGLES, surf_numind, GL_UNSIGNED_SHORT, 0);
         }
         else if(coins[i].color == 6)
         {
@@ -1105,7 +1105,7 @@ void main_loop()
 
         glUniform1f(opacity_id, 0.4f);
         modelBind3(&mdlSurf);
-        glDrawElements(GL_TRIANGLES, surf_numind, GL_UNSIGNED_BYTE, 0);
+        glDrawElements(GL_TRIANGLES, surf_numind, GL_UNSIGNED_SHORT, 0);
     }
 
     if(trophies[5] == 1)
