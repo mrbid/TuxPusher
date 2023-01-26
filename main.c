@@ -366,7 +366,7 @@ uint stepCollisions()
                             coins[j].x = fr;
                     }
                 }
-                else if(coins[j].y < 1.45439f) // third left & right
+                else if(coins[j].y < 1.64f) // third left & right
                 {
                     const f32 fl = -3.40863f + coins[j].r;
                     if(coins[j].x < fl)
