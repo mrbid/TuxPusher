@@ -1,6 +1,6 @@
 name: tuxpusher
 base: core20
-version: '1.3.2'
+version: '1.3.3'
 summary: A fun coin pusher game featuring Tux!
 description: |
   Just move around your mouse and click to release a coin.
