@@ -1137,7 +1137,6 @@ void main_loop()
         if(std < 6.75f)
         {
             glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
-            glUniform1f(opacity_id, 0.f);
 
             if((std > 1.5f && std < 2.f) || (std > 2.5f && std < 3.f) || (std > 3.5f && std < 4.f))
             {
