@@ -42,5 +42,10 @@ cc -DBUILD_GLFW main.c glad_gl.c -I inc -Ofast -lglfw -lm -o release/tuxpusher
 
 ---
 
+### Typography
+[Fontasy Penguin by FontasyLand](https://www.fontspace.com/fontasy-penguin-font-f4848)
+[Plastic Love by Azkarizki](https://www.fontspace.com/plastic-love-font-f49676)
+[Allay Font by Abahrozi](https://www.fontspace.com/allay-font-f66225) ([twinletter.com](https://twinletter.com))
+
 ## License
 This software TuxPusher is released under the [GPL-2.0-only](https://spdx.org/licenses/GPL-2.0-only.html) license. Being released under 'GPL-2.0-only' means that any subsequent versions of the GPL-2.0 license are NOT applicable to the source code or assets in this GitHub repository. This GPL-2.0-only licensing includes source code and all assets apart from the Tux 3D asset ([tux.h](assets/tux.h)) created by [Andy Cuccaro](https://sketchfab.com/andycuccaro) which is licenced under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
