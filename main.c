@@ -1136,10 +1136,9 @@ void main_loop()
 
         if(std < 6.75f)
         {
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
-
             if((std > 1.5f && std < 2.f) || (std > 2.5f && std < 3.f) || (std > 3.5f && std < 4.f))
             {
+                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
                 glUniform3f(color_id, 0.89f, 0.f, 0.157f);
                 modelBind1(&mdlRX);
                 glDrawElements(GL_TRIANGLES, rx_numind, GL_UNSIGNED_BYTE, 0);
@@ -1166,6 +1165,7 @@ void main_loop()
                 f32 step = (std-6.25f)*2.f;
                 if(step < 0.f){step = 0.f;}
                 glUniform3f(color_id, 0.698f - (0.16859f * step), 0.667f + (0.14084f * step), 0.263f + (0.65857f * step));
+                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
                 modelBind1(&mdlGA);
                 glDrawElements(GL_TRIANGLES, ga_numind, GL_UNSIGNED_BYTE, 0);
             }
