@@ -1276,8 +1276,8 @@ void window_size_callback(GLFWwindow* window, int width, int height)
 
     glViewport(0, 0, winw, winh);
     aspect = (f32)winw / (f32)winh;
-    ww = winw;
-    wh = winh;
+    ww = (double)winw;
+    wh = (double)winh;
     if(ortho == 1){touch_margin = ww*0.3076923192f;}
     else{touch_margin = ww*0.2058590651f;}
     rww = 1.0/(ww-touch_margin*2.0);
