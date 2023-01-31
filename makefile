@@ -9,16 +9,12 @@ ifeq ($(PREFIX),)
     PREFIX := /usr/local
 endif
 
-ifneq ($(LDFLAGS),)
-LINK_DEPS += $(LDFLAGS)
-endif
-
 .PHONY: all
 all: release
 
 plygame:
 	mkdir -p release
-	$(CC) $(CFLAGS) $(LDFLAGS) main.c $(INCLUDE_HEADERS) $(LINK_DEPS) -o release/$(PRJ_NAME)
+	$(CC) $(CFLAGS) main.c $(INCLUDE_HEADERS) $(LINK_DEPS) $(LDFLAGS) -o release/$(PRJ_NAME)
 
 test: plygame
 	./release/$(PRJ_NAME)
@@ -38,6 +34,14 @@ appimage:
 	mkdir -p $(PRJ_NAME).AppDir/usr/bin
 	cp release/$(PRJ_NAME) $(PRJ_NAME).AppDir/usr/bin/$(PRJ_NAME)
 	./appimagetool-x86_64.AppImage $(PRJ_NAME).AppDir release/$(PRJ_NAME)-x86_64.AppImage
+
+webgl:
+	mkdir -p web
+	emcc main.c $(INCLUDE_HEADERS) -O3 --closure 1 -s FILESYSTEM=0 -s USE_SDL=2 -s ENVIRONMENT=web -o web/game.html --shell-file t.html
+	emrun --browser chrome web/index.html
+
+webrun:
+	emrun --browser chrome web/index.html
 
 glfw:
 	mkdir -p release
@@ -69,3 +73,4 @@ clean:
 	rm -f release/$(PRJ_NAME)_win.zip
 	rm -f tuxpusher.AppDir/usr/bin/$(PRJ_NAME)
 	rm -f deb/usr/games/$(PRJ_NAME)
+	
