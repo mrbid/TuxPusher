@@ -32,12 +32,12 @@ make
 ## Manual Linux SDL
 ```
 sudo apt install libsdl2-2.0-0 libsdl2-dev
-cc main.c -I inc -lSDL2 -lGLESv2 -lEGL -Ofast -lm -o release/tuxpusher
+cc main.c -I inc -lSDL2 -lGLESv2 -lEGL -Ofast -lm -o tuxpusher
 ```
 ## Manual Linux GLFW
 ```
 sudo apt install libglfw3 libglfw3-dev
-cc -DBUILD_GLFW main.c glad_gl.c -I inc -Ofast -lglfw -lm -o release/tuxpusher
+cc -DBUILD_GLFW main.c glad_gl.c -I inc -Ofast -lglfw -lm -o tuxpusher
 ```
 
 ---
