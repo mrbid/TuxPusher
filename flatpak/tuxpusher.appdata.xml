@@ -23,9 +23,11 @@
 		<p>There is a command line option that allows you to set the coin deployment speed, but also every time you "lose" a game, the new round will start with a faster deployment speed than the last, just to keep things exciting. ;)</p>
 	</description>
 	<screenshots>
-		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-47-51.png</screenshot>
+		<screenshot><video>https://youtu.be/39AIfMu2cYA</video></screenshot>
+		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-24_23-57-35.png</screenshot>
 		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Untitled-2.jpg</screenshot>
-		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-43-56.png</screenshot>
+		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-24_18-52-33_AhoTnw2.png</screenshot>
+		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-24_18-41-17.png</screenshot>
 		<screenshot>https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-10_04-47-58.png</screenshot>
 	</screenshots>
 	<url type="homepage">https://github.com/mrbid/TuxPusher</url>
