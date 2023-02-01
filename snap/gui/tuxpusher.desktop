@@ -7,4 +7,4 @@ Exec=tuxpusher
 Icon=${SNAP}/meta/gui/tuxpusher.png
 Terminal=false
 Type=Application
-Categories=Application;Game;ArcadeGame;
+Categories=Game;ArcadeGame;
