@@ -32,7 +32,7 @@ debify:
 
 appimage:
 	mkdir -p $(PRJ_NAME).AppDir/usr/bin
-	cp release/$(PRJ_NAME) $(PRJ_NAME).AppDir/usr/bin/$(PRJ_NAME)
+	cp release/$(PRJ_NAME)_glfw $(PRJ_NAME).AppDir/usr/bin/$(PRJ_NAME)
 	./appimagetool-x86_64.AppImage $(PRJ_NAME).AppDir release/$(PRJ_NAME)-x86_64.AppImage
 
 webgl:
