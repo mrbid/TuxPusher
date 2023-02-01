@@ -6,4 +6,4 @@ Exec=tuxpusher
 Icon=tuxpusher
 Terminal=false
 Type=Application
-Categories=Application;Game;ArcadeGame;
+Categories=Game;ArcadeGame;
