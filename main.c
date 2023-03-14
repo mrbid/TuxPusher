@@ -104,7 +104,6 @@ GLint projection_id;
 GLint modelview_id;
 GLint position_id;
 GLint lightpos_id;
-GLint solidcolor_id;
 GLint color_id;
 GLint opacity_id;
 GLint normal_id;
