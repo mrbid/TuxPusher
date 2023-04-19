@@ -35,14 +35,6 @@ appimage:
 	cp release/$(PRJ_NAME) $(PRJ_NAME).AppDir/usr/bin/$(PRJ_NAME)
 	./appimagetool-x86_64.AppImage $(PRJ_NAME).AppDir release/$(PRJ_NAME)-x86_64.AppImage
 
-webgl:
-	mkdir -p web
-	emcc main.c $(INCLUDE_HEADERS) -O3 --closure 1 -s FILESYSTEM=0 -s USE_SDL=2 -s ENVIRONMENT=web -o web/game.html --shell-file t.html
-	emrun --browser chrome web/index.html
-
-webrun:
-	emrun --browser chrome web/index.html
-
 glfw:
 	mkdir -p release
 	cc -DBUILD_GLFW main.c glad_gl.c -I inc -Ofast -lglfw -lm -o release/$(PRJ_NAME)_glfw
