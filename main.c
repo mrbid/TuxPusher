@@ -631,14 +631,14 @@ void doPerspective()
     mIdent(&projection);
 
     if(ortho == 1)
-        mOrtho(&projection, -5.0f, 5.0f, -3.2f, 3.4f, 0.01f, 320.f);
+        mOrtho(&projection, -5.0f, 5.0f, -3.2f, 3.4f, 2.0f, 320.f);
     else
     {
         if(winw > winh)
             aspect = ww / wh;
         else
             aspect = wh / ww;
-        mPerspective(&projection, 30.0f, aspect, 0.1f, 320.f);
+        mPerspective(&projection, 30.0f, aspect, 2.0f, 320.f);
     }
 }
 
