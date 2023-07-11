@@ -1383,7 +1383,7 @@ int main(int argc, char** argv)
         if(!glfwInit()){printf("glfwInit() failed.\n"); exit(EXIT_FAILURE);}
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        glfwWindowHint(GLFW_SAMPLES, msaa);
+        glfwWindowHint(GLFW_SAMPLES, option_msaa);
         wnd = glfwCreateWindow(winw, winh, appTitle, NULL, NULL);
         if(!wnd)
         {
@@ -1398,7 +1398,7 @@ int main(int argc, char** argv)
         glfwSetMouseButtonCallback(wnd, mouse_button_callback);
         glfwMakeContextCurrent(wnd);
         gladLoadGL(glfwGetProcAddress);
-        glfwSwapInterval(1); // 0 for immediate updates, 1 for updates synchronized with the vertical retrace, -1 for adaptive vsync
+        glfwSwapInterval(option_vsync); // 0 for immediate updates, 1 for updates synchronized with the vertical retrace, -1 for adaptive vsync
 
         // set icon
         glfwSetWindowIcon(wnd, 1, &(GLFWimage){16, 16, (unsigned char*)&icon_image.pixel_data});
