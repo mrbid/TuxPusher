@@ -66,6 +66,8 @@
 #include "assets/sa.h"
 #include "assets/ga.h"
 
+#include "assets/console_menus.h"
+
 #define uint GLushort // it's a short don't forget that
 #define sint GLshort  // and this.
 #define f32 GLfloat
@@ -1295,42 +1297,73 @@ void printAttrib(SDL_GLattr attr, char* name)
     printf("%s: %i\n", name, i);
 }
 #endif
+
+
+// A small function to perform djb2 hash algorithm. This is for quick string checking and other hash needs.
+// More info here: https://github.com/dim13/djb2/blob/master/docs/hash.md
+unsigned int quickHash(const char *string) {
+    unsigned long hash = 5381;
+    int c;
+    while (c = *string++) {
+        hash = ((hash << 5) + hash) + c;
+    }
+    return (unsigned int)hash; // cast into an int so it's usable with switches.
+}
+
 int main(int argc, char** argv)
 {
-    // allow custom msaa level
-    int msaa = 16;
-    if(argc >= 2){msaa = atoi(argv[1]);}
+    // msaa level variable
+    int option_msaa = 16;
 
-    // help
-    printf("----\n");
-    printf("TuxPusher.com\n");
-    printf("----\n");
-    printf("James William Fletcher (github.com/mrbid)\n");
-    printf("----\n");
-    printf("Argv(2): msaa, speed\n");
-    printf("e.g; ./uc 16 1.6\n");
-    printf("----\n");
-    printf("Left Click = Release coin\n");
-    printf("Right Click = Show/hide cursor\n");
-    printf("C = Orthographic/Perspective\n");
-    printf("F = FPS to console\n");
-    printf("----\n");
-    printf("Tux 3D model by Andy Cuccaro:\n");
-    printf("https://sketchfab.com/3d-models/tux-157de95fa4014050a969a8361a83d366\n");
-    printf("----\n");
-    printf("Fonts used in the End Game screen from top to bottom order:\n");
-    printf("1. Fontasy Penguin by FontasyLand\n");
-    printf("   https://www.fontspace.com/fontasy-penguin-font-f4848\n");
-    printf("2. Plastic Love by Azkarizki\n");
-    printf("   https://www.fontspace.com/plastic-love-font-f49676\n");
-    printf("3. Allay Font by Abahrozi (https://twinletter.com/)\n");
-    printf("   https://www.fontspace.com/allay-font-f66225\n");
-    printf("----\n");
-    printf("Rules:\n");
-    printf("Getting a gold coin in a silver slot rewards you 2x silver coins.\n");
-    printf("Getting a gold coin in a gold slot rewards you 2x gold coins.\n");
-    printf("Getting a tux in a slot when you already have the tux gives you 6x gold coins and 6x silver coins.\n");
-    printf("----\n");
+    // Vertical sync option. 0 for immediate updates, 1 for updates synchronized with the vertical retrace, -1 for adaptive vsync
+    int option_vsync = 1;
+
+    // Evaluate hashes for comparing arguments later...
+    const int HASHGEN = 285276507; // --generate-hash
+    const int TINY_HASHGEN = 193429505; // -gh
+    
+    const int HELP = 1950366504; // --help
+    const int TINY_HELP = 5861498; // -h
+
+    const int MSAALEVEL = 2444437574; // --msaa-level
+    const int TINY_MSAALEVEL = 191564340; // -msaa
+
+    const int VSYNC = 596612675; // --vertical-sync
+    const int TINY_VSYNC = 193430011; // -vs
+
+    // Loop through console arguments and adjust program accordingly.
+    // i starts at one to skip the program name.
+    for (int i = 1; i < argc; i++) {
+        switch (quickHash(argv[i])) {
+            case HASHGEN:
+            case TINY_HASHGEN:
+                printf("This tool is designed to generate hashes to compare the console arguments to.\n");
+                printf("Hashed value: %u\n", quickHash(argv[i+1]));
+                printf("Prehashed Value: %s\n", argv[i+1]);
+                exit(0);
+            case HELP: // Display the help menu and quit
+            case TINY_HELP:
+                printf(HelpMenu);
+                exit(0);
+            case MSAALEVEL: // Change the MSAA level.
+            case TINY_MSAALEVEL:
+                option_msaa = atoi(argv[i+1]);
+                break;
+            case VSYNC: // change the Vsync options.
+            case TINY_VSYNC:
+                switch (atoi(argv[i+1])) { // sanitizes the vsync options
+                    case -1:
+                        option_vsync = -1;
+                        break;
+                    case 1:
+                        option_vsync = 1;
+                        break;
+                    default:
+                        printf("WARNING: Invalid vsync option, valid options are: -1, 0, 1.");
+                }
+                break;
+        }
+    }
 
 #ifdef BUILD_GLFW
         // init glfw
@@ -1364,22 +1397,22 @@ int main(int argc, char** argv)
             return 1;
         }
         SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, msaa);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, option_msaa);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
         wnd = SDL_CreateWindow(appTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, winw, winh, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
         while(wnd == NULL)
         {
-            if(msaa == 0)
+            if(option_msaa == 0)
             {
                 printf("ERROR: SDL_CreateWindow(): %s\n", SDL_GetError());
                 return 1;
             }
-            SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, msaa/2);
+            SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, option_msaa/2);
             wnd = SDL_CreateWindow(appTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, winw, winh, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
         }
-        SDL_GL_SetSwapInterval(1); // 0 for immediate updates, 1 for updates synchronized with the vertical retrace, -1 for adaptive vsync
+        SDL_GL_SetSwapInterval(option_vsync);
         glc = SDL_GL_CreateContext(wnd);
         if(glc == NULL)
         {
@@ -1585,7 +1618,13 @@ int main(int argc, char** argv)
         fc++;
     }
 #else
-    while(1){main_loop();fc++;}
+
+    // Game loop
+    for (;;) {
+        main_loop();
+        fc++;
+    }
+
 #endif
 
     return 0;
