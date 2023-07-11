@@ -938,90 +938,42 @@ void main_loop()
     // trophies
     for(int i=0; i < 3; i++)
     {
-        if(coins[i].color == 1)
-        {
-            mIdent(&model);
-            mTranslate(&model, coins[i].x, coins[i].y, 0.f);
-            mMul(&modelview, &model, &view);
-            
-            glUniform1f(opacity_id, 0.148f);
-            modelBind3(&mdlTux);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-        }
-        else if(coins[i].color == 2)
-        {
-            mIdent(&model);
-            mTranslate(&model, coins[i].x, coins[i].y, 0.f);
-            mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+        mIdent(&model);
+        mTranslate(&model, coins[i].x, coins[i].y, 0.f);
+        mMul(&modelview, &model, &view);
+        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+        
+        // Draw the base Tux model, this will be our base to add apparel onto
+        glUniform1f(opacity_id, 0.148f);
+        modelBind3(&mdlTux);
+        glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
 
-            glUniform1f(opacity_id, 0.148f);
-            modelBind3(&mdlTux);
-            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-            
-            glUniform1f(opacity_id, 0.5f);
-            modelBind3(&mdlEvil);
-            glDrawElements(GL_TRIANGLES, evil_numind, GL_UNSIGNED_BYTE, 0);
-        }
-        else if(coins[i].color == 3)
-        {
-            mIdent(&model);
-            mTranslate(&model, coins[i].x, coins[i].y, 0.f);
-            mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-            glUniform1f(opacity_id, 0.148f);
-            modelBind3(&mdlTux);
-            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-
-            glUniform1f(opacity_id, 0.6f);
-            modelBind3(&mdlKing);
-            glDrawElements(GL_TRIANGLES, king_numind, GL_UNSIGNED_BYTE, 0);
-        }
-        else if(coins[i].color == 4)
-        {
-            mIdent(&model);
-            mTranslate(&model, coins[i].x, coins[i].y, 0.f);
-            mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-            glUniform1f(opacity_id, 0.148f);
-            modelBind3(&mdlTux);
-            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-
-            modelBind3(&mdlNinja);
-            glDrawElements(GL_TRIANGLES, ninja_numind, GL_UNSIGNED_BYTE, 0);
-        }
-        else if(coins[i].color == 5)
-        {
-            mIdent(&model);
-            mTranslate(&model, coins[i].x, coins[i].y, 0.f);
-            mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-            glUniform1f(opacity_id, 0.148f);
-            modelBind3(&mdlTux);
-            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-            
-            glUniform1f(opacity_id, 0.4f);
-            modelBind3(&mdlSurf);
-            glDrawElements(GL_TRIANGLES, surf_numind, GL_UNSIGNED_SHORT, 0);
-        }
-        else if(coins[i].color == 6)
-        {
-            mIdent(&model);
-            mTranslate(&model, coins[i].x, coins[i].y, 0.f);
-            mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-            glUniform1f(opacity_id, 0.148f);
-            modelBind3(&mdlTux);
-            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-
-            glUniform1f(opacity_id, 0.5f);
-            modelBind3(&mdlTrip);
-            glDrawElements(GL_TRIANGLES, trip_numind, GL_UNSIGNED_SHORT, 0);
+        // Tux Skin Selection.
+        switch (coins[i].color) {
+            case 2:
+                glUniform1f(opacity_id, 0.5f);
+                modelBind3(&mdlEvil);
+                glDrawElements(GL_TRIANGLES, evil_numind, GL_UNSIGNED_BYTE, 0);
+                break;
+            case 3:
+                glUniform1f(opacity_id, 0.6f);
+                modelBind3(&mdlKing);
+                glDrawElements(GL_TRIANGLES, king_numind, GL_UNSIGNED_BYTE, 0);
+                break;
+            case 4:
+                modelBind3(&mdlNinja);
+                glDrawElements(GL_TRIANGLES, ninja_numind, GL_UNSIGNED_BYTE, 0);
+                break;
+            case 5:
+                glUniform1f(opacity_id, 0.4f);
+                modelBind3(&mdlSurf);
+                glDrawElements(GL_TRIANGLES, surf_numind, GL_UNSIGNED_SHORT, 0);
+                break;
+            case 6:
+                glUniform1f(opacity_id, 0.5f);
+                modelBind3(&mdlTrip);
+                glDrawElements(GL_TRIANGLES, trip_numind, GL_UNSIGNED_SHORT, 0);
+                break;
         }
     }
 
