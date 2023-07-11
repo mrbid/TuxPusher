@@ -120,7 +120,6 @@ mat modelview;
 vec lightpos = {0.f, 10.f, 13.f};
 int csp = -1; // current shader program
 
-// models
 ESModel mdlPlane;
 ESModel mdlGameover;
 ESModel mdlScene;
@@ -1312,6 +1311,9 @@ unsigned int quickHash(const char *string) {
 
 int main(int argc, char** argv)
 {
+    // set game push speed (global variable)
+    PUSH_SPEED = 1.6f;
+
     // msaa level variable
     int option_msaa = 16;
 
@@ -1330,6 +1332,9 @@ int main(int argc, char** argv)
 
     const int VSYNC = 596612675; // --vertical-sync
     const int TINY_VSYNC = 193430011; // -vs
+
+    const int PUSHSPEED = 1053346333; // --push-speed
+    const int TINY_PUSHSPEED = 193429813; // -ps
 
     // Loop through console arguments and adjust program accordingly.
     // i starts at one to skip the program name.
@@ -1361,6 +1366,14 @@ int main(int argc, char** argv)
                     default:
                         printf("WARNING: Invalid vsync option, valid options are: -1, 0, 1.");
                 }
+                break;
+            case PUSHSPEED: // Change the push speed of the game.
+            case TINY_PUSHSPEED:
+                PUSH_SPEED = atof(argv[i+1]);
+                if(PUSH_SPEED > 32.f) {
+                    PUSH_SPEED = 32.f;
+                }
+                printf("Successfully set Push speed to %f", PUSH_SPEED);
                 break;
         }
     }
@@ -1429,21 +1442,6 @@ int main(int argc, char** argv)
         s_icon = surfaceFromData((Uint32*)&icon_image.pixel_data[0], 16, 16);
         SDL_SetWindowIcon(wnd, s_icon);
 #endif
-
-    // set game push speed
-    PUSH_SPEED = 1.6f;
-    if(argc >= 3)
-    {
-        PUSH_SPEED = atof(argv[2]);
-        if(PUSH_SPEED > 32.f){PUSH_SPEED = 32.f;}
-        char titlestr[256];
-        sprintf(titlestr, "TuxPusher [%.1f]", PUSH_SPEED);
-#ifdef BUILD_GLFW
-        glfwSetWindowTitle(wnd, titlestr);
-#else
-        SDL_SetWindowTitle(wnd, titlestr);
-#endif
-    }
 
     // debug (cant do this on ES unless >= ES 3.2)
 #if defined(GL_DEBUG) && !defined(__MINGW32__) // no need to debug the windows release
