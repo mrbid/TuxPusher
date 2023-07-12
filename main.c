@@ -1316,6 +1316,7 @@ void printAttrib(SDL_GLattr attr, char* name)
 // Returns the processing time. 
 unsigned int BenchmarkFunction(void (*F)(), int samples)
 {
+    (*F)(); // Preempt the function to skip initializations
     unsigned int average = 0;
     for (int i = 0; i < samples; i++)
     {
