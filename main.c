@@ -206,9 +206,7 @@ void setActiveCoin(const uint color)
 void takeStack()
 {
     if(gameover != 0.f)
-    {
         return;
-    }
     
     if(silver_stack != 0.f)
     {
@@ -672,88 +670,97 @@ void main_loop()
     SDL_Event event;
     while(SDL_PollEvent(&event))
     {
-        if(event.type == SDL_MOUSEMOTION)
+        switch (event.type) 
         {
-            mx = (f32)event.motion.x;
-            my = (f32)event.motion.y;
-        }
-        else if(event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            if(inmotion == 0 && event.button.button == SDL_BUTTON_LEFT)
-            {
-                if(gameover > 0.f)
+            
+            case SDL_MOUSEMOTION:
+                mx = (f32)event.motion.x;
+                my = (f32)event.motion.y;
+                break;
+            
+            case SDL_MOUSEBUTTONDOWN:
+                switch (event.button.button) 
                 {
-                    if(f32Time() > gameover+3.0f)
-                    {
-                        newGame();
-                        if(PUSH_SPEED < 32.f)
-                        {
-                            PUSH_SPEED += 1.f;
-                            char titlestr[256];
-                            sprintf(titlestr, "TuxPusher [%.1f]", PUSH_SPEED);
-                            SDL_SetWindowTitle(wnd, titlestr);
-                        }
-                    }
-                    return;
-                }
-                takeStack();
-                md = 1;
-            }
+                    case SDL_BUTTON_LEFT:
 
-            if(event.button.button == SDL_BUTTON_RIGHT)
-            {
-                static uint cs = 1;
-                cs = 1 - cs;
-                if(cs == 0)
-                    SDL_ShowCursor(0);
-                else
-                    SDL_ShowCursor(1);
-            }
-        }
-        else if(event.type == SDL_MOUSEBUTTONUP)
-        {
-            if(event.button.button == SDL_BUTTON_LEFT)
-                md = 0;
-        }
-        else if(event.type == SDL_KEYDOWN)
-        {
-            if(event.key.keysym.sym == SDLK_f)
-            {
-                if(t-lfct > 2.0)
-                {
-                    char strts[16];
-                    timestamp(&strts[0]);
-                    const f32 nfps = fc/(t-lfct);
-                    printf("[%s] FPS: %g\n", strts, nfps);
-                    lfct = t;
-                    fc = 0;
+                        if (inmotion != 0 || event.button.button != SDL_BUTTON_LEFT)
+                            break;
+
+                        takeStack();
+                        md = 1;
+
+                        if (gameover == 0.f) 
+                            break;
+
+                        if(f32Time() <= gameover+3.0f)
+                            break;
+                        
+                        newGame();
+
+                        if(PUSH_SPEED >= 32.f)
+                            return;
+
+                        PUSH_SPEED += 1.f;
+                        char titlestr[256];
+                        sprintf(titlestr, "TuxPusher [%.1f]", PUSH_SPEED);
+                        SDL_SetWindowTitle(wnd, titlestr);
+
+                        return;
+
+                    case SDL_BUTTON_RIGHT:
+                        static uint cs = 1;
+                        cs = 1 - cs;
+                        SDL_ShowCursor(cs);
                 }
-            }
-            else if(event.key.keysym.sym == SDLK_c)
-            {
-                ortho = 1 - ortho;
-                doPerspective();
-            }
-        }
-        else if(event.type == SDL_WINDOWEVENT)
-        {
-            if(event.window.event == SDL_WINDOWEVENT_RESIZED)
-            {
+                break;
+            
+            case SDL_MOUSEBUTTONUP:
+                if(event.button.button == SDL_BUTTON_LEFT)
+                    md = 0;
+                break;
+
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) 
+                {
+                    case SDLK_f:
+                        if(t-lfct <= 2.0)
+                            break;
+
+                        char strts[16];
+                        timestamp(&strts[0]);
+                        const f32 nfps = fc/(t-lfct);
+                        printf("[%s] FPS: %g\n", strts, nfps);
+                        lfct = t;
+                        fc = 0;
+
+                        break;
+
+                    case SDLK_c:
+                        ortho = 1 - ortho;
+                        doPerspective();
+                        break;
+                }
+                break;
+            
+            case SDL_WINDOWEVENT:
+                if(event.window.event != SDL_WINDOWEVENT_RESIZED)
+                    break;
                 winw = event.window.data1;
                 winh = event.window.data2;
                 doPerspective();
-            }
+                break;
+
+            case SDL_QUIT:
+                SDL_GL_DeleteContext(glc);
+                SDL_FreeSurface(s_icon);
+                SDL_FreeCursor(cross_cursor);
+                SDL_FreeCursor(beam_cursor);
+                SDL_DestroyWindow(wnd);
+                SDL_Quit();
+                exit(0);
+                
         }
-        else if(event.type == SDL_QUIT)
-        {
-            SDL_GL_DeleteContext(glc);
-            SDL_FreeSurface(s_icon);
-            SDL_FreeCursor(cross_cursor);
-            SDL_FreeCursor(beam_cursor);
-            SDL_DestroyWindow(wnd);
-            SDL_Quit();
-            exit(0);
-        }
+        
     }
 #endif
     
