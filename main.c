@@ -1312,9 +1312,31 @@ void printAttrib(SDL_GLattr attr, char* name)
 #endif
 
 
+// This is for benchmarking a specific function.
+// Returns the processing time. 
+unsigned int BenchmarkFunction(void (*F)(), int samples)
+{
+    unsigned int average = 0;
+    for (int i = 0; i < samples; i++)
+    {
+        struct timespec InitalTime;
+        struct timespec FinalTime;
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &InitalTime);
+        (*F)(); // execute function
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &FinalTime);
+        average += FinalTime.tv_nsec - InitalTime.tv_nsec;
+    }
+    if (average % 2 == 1) { // odd number detected!
+        average += 1;
+    }
+    return average/samples;
+}
+
+
 // A small function to perform djb2 hash algorithm. This is for quick string checking and other hash needs.
 // More info here: https://github.com/dim13/djb2/blob/master/docs/hash.md
-unsigned int quickHash(const char *string) {
+unsigned int quickHash(const char *string) 
+{
     unsigned long hash = 5381;
     int c;
     while (c = *string++) {
@@ -1350,6 +1372,9 @@ int main(int argc, char** argv)
     const int PUSHSPEED = 1053346333; // --push-speed
     const int TINY_PUSHSPEED = 193429813; // -ps
 
+    const int ARG_BENCHMARK = 3795426538; // --benchmark
+    const int ARG_BENCHMARK_TINY = 193429345; // -bm
+
     // Loop through console arguments and adjust program accordingly.
     // i starts at one to skip the program name.
     for (int i = 1; i < argc; i++) {
@@ -1363,6 +1388,16 @@ int main(int argc, char** argv)
             case HELP: // Display the help menu and quit
             case TINY_HELP:
                 printf(HelpMenu);
+                exit(0);
+            case ARG_BENCHMARK:
+            case ARG_BENCHMARK_TINY: // Benchmark multiple aspects of the game.
+                printf("==============================\n\n   -= Benchmark results =-\n\n");
+                printf("Collision Function: %i ns\n", BenchmarkFunction((void(*)())stepCollisions, 512));
+                printf("Take Stack: %i ns\n", BenchmarkFunction((void(*)())takeStack, 512));
+                printf("inject Figures: %i ns\n", BenchmarkFunction((void(*)())injectFigure, 512));
+                printf("New Game Function: %i ns\n\n", BenchmarkFunction((void(*)())newGame, 16));
+                printf("Inside Pitch: %i ns\n", BenchmarkFunction((void(*)())insidePitch, 512));
+                printf("\n==============================\n");
                 exit(0);
             case MSAALEVEL: // Change the MSAA level.
             case TINY_MSAALEVEL:
