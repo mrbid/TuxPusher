@@ -205,40 +205,44 @@ void setActiveCoin(const uint color)
 
 void takeStack()
 {
-    if(gameover == 0.f)
+    if(gameover != 0.f)
     {
-        if(silver_stack != 0.f)
+        return;
+    }
+    
+    if(silver_stack != 0.f)
+    {
+        // play a silver coin
+        isnewcoin = 1;
+        setActiveCoin(0);
+        inmotion = 1;
+    }
+    else if(gold_stack != 0.f)
+    {
+        // play a gold coin
+        isnewcoin = 2;
+        setActiveCoin(1);
+        inmotion = 1;
+    }
+
+    if(inmotion == 1)
+    {
+        if(mx < touch_margin)
         {
-            // play a silver coin
-            isnewcoin = 1;
-            setActiveCoin(0);
-            inmotion = 1;
+            coins[active_coin].x = -1.90433f;
+            coins[active_coin].y = -4.54055f;
+            return;
         }
-        else if(gold_stack != 0.f)
+        
+        if(mx > ww-touch_margin)
         {
-            // play a gold coin
-            isnewcoin = 2;
-            setActiveCoin(1);
-            inmotion = 1;
+            coins[active_coin].x = 1.90433f;
+            coins[active_coin].y = -4.54055f;
+            return;
         }
-        if(inmotion == 1)
-        {
-            if(mx < touch_margin)
-            {
-                coins[active_coin].x = -1.90433f;
-                coins[active_coin].y = -4.54055f;
-            }
-            else if(mx > ww-touch_margin)
-            {
-                coins[active_coin].x = 1.90433f;
-                coins[active_coin].y = -4.54055f;
-            }
-            else
-            {
-                coins[active_coin].x = -1.90433f+(((mx-touch_margin)*rww)*3.80866f);
-                coins[active_coin].y = -4.54055f;
-            }
-        }
+        
+        coins[active_coin].x = -1.90433f+(((mx-touch_margin)*rww)*3.80866f);
+        coins[active_coin].y = -4.54055f;
     }
 }
 
