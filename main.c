@@ -23,6 +23,7 @@
     can now be set via the second argv.
 */
 
+#include <SDL2/SDL_mouse.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -205,40 +206,42 @@ void setActiveCoin(const uint color)
 
 void takeStack()
 {
-    if(gameover == 0.f)
+    if(gameover != 0.f)
+        return;
+    
+    if(silver_stack != 0.f)
     {
-        if(silver_stack != 0.f)
+        // play a silver coin
+        isnewcoin = 1;
+        setActiveCoin(0);
+        inmotion = 1;
+    }
+    else if(gold_stack != 0.f)
+    {
+        // play a gold coin
+        isnewcoin = 2;
+        setActiveCoin(1);
+        inmotion = 1;
+    }
+
+    if(inmotion == 1)
+    {
+        if(mx < touch_margin)
         {
-            // play a silver coin
-            isnewcoin = 1;
-            setActiveCoin(0);
-            inmotion = 1;
+            coins[active_coin].x = -1.90433f;
+            coins[active_coin].y = -4.54055f;
+            return;
         }
-        else if(gold_stack != 0.f)
+        
+        if(mx > ww-touch_margin)
         {
-            // play a gold coin
-            isnewcoin = 2;
-            setActiveCoin(1);
-            inmotion = 1;
+            coins[active_coin].x = 1.90433f;
+            coins[active_coin].y = -4.54055f;
+            return;
         }
-        if(inmotion == 1)
-        {
-            if(mx < touch_margin)
-            {
-                coins[active_coin].x = -1.90433f;
-                coins[active_coin].y = -4.54055f;
-            }
-            else if(mx > ww-touch_margin)
-            {
-                coins[active_coin].x = 1.90433f;
-                coins[active_coin].y = -4.54055f;
-            }
-            else
-            {
-                coins[active_coin].x = -1.90433f+(((mx-touch_margin)*rww)*3.80866f);
-                coins[active_coin].y = -4.54055f;
-            }
-        }
+        
+        coins[active_coin].x = -1.90433f+(((mx-touch_margin)*rww)*3.80866f);
+        coins[active_coin].y = -4.54055f;
     }
 }
 
@@ -668,88 +671,97 @@ void main_loop()
     SDL_Event event;
     while(SDL_PollEvent(&event))
     {
-        if(event.type == SDL_MOUSEMOTION)
+        switch (event.type) 
         {
-            mx = (f32)event.motion.x;
-            my = (f32)event.motion.y;
-        }
-        else if(event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            if(inmotion == 0 && event.button.button == SDL_BUTTON_LEFT)
-            {
-                if(gameover > 0.f)
+            
+            case SDL_MOUSEMOTION:
+                mx = (f32)event.motion.x;
+                my = (f32)event.motion.y;
+                break;
+            
+            case SDL_MOUSEBUTTONDOWN:
+                switch (event.button.button) 
                 {
-                    if(f32Time() > gameover+3.0f)
-                    {
-                        newGame();
-                        if(PUSH_SPEED < 32.f)
-                        {
-                            PUSH_SPEED += 1.f;
-                            char titlestr[256];
-                            sprintf(titlestr, "TuxPusher [%.1f]", PUSH_SPEED);
-                            SDL_SetWindowTitle(wnd, titlestr);
-                        }
-                    }
-                    return;
-                }
-                takeStack();
-                md = 1;
-            }
+                    case SDL_BUTTON_LEFT:
 
-            if(event.button.button == SDL_BUTTON_RIGHT)
-            {
-                static uint cs = 1;
-                cs = 1 - cs;
-                if(cs == 0)
-                    SDL_ShowCursor(0);
-                else
-                    SDL_ShowCursor(1);
-            }
-        }
-        else if(event.type == SDL_MOUSEBUTTONUP)
-        {
-            if(event.button.button == SDL_BUTTON_LEFT)
-                md = 0;
-        }
-        else if(event.type == SDL_KEYDOWN)
-        {
-            if(event.key.keysym.sym == SDLK_f)
-            {
-                if(t-lfct > 2.0)
-                {
-                    char strts[16];
-                    timestamp(&strts[0]);
-                    const f32 nfps = fc/(t-lfct);
-                    printf("[%s] FPS: %g\n", strts, nfps);
-                    lfct = t;
-                    fc = 0;
+                        if (inmotion != 0 || event.button.button != SDL_BUTTON_LEFT)
+                            break;
+
+                        takeStack();
+                        md = 1;
+
+                        if (gameover == 0.f) 
+                            break;
+
+                        if(f32Time() <= gameover+3.0f)
+                            break;
+                        
+                        newGame();
+
+                        if(PUSH_SPEED >= 32.f)
+                            return;
+
+                        PUSH_SPEED += 1.f;
+                        char titlestr[256];
+                        sprintf(titlestr, "TuxPusher [%.1f]", PUSH_SPEED);
+                        SDL_SetWindowTitle(wnd, titlestr);
+
+                        return;
+
+                    case SDL_BUTTON_RIGHT:
+                        static uint cs = 1;
+                        cs = 1 - cs;
+                        SDL_ShowCursor(cs);
                 }
-            }
-            else if(event.key.keysym.sym == SDLK_c)
-            {
-                ortho = 1 - ortho;
-                doPerspective();
-            }
-        }
-        else if(event.type == SDL_WINDOWEVENT)
-        {
-            if(event.window.event == SDL_WINDOWEVENT_RESIZED)
-            {
+                break;
+            
+            case SDL_MOUSEBUTTONUP:
+                if(event.button.button == SDL_BUTTON_LEFT)
+                    md = 0;
+                break;
+
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) 
+                {
+                    case SDLK_f:
+                        if(t-lfct <= 2.0)
+                            break;
+
+                        char strts[16];
+                        timestamp(&strts[0]);
+                        const f32 nfps = fc/(t-lfct);
+                        printf("[%s] FPS: %g\n", strts, nfps);
+                        lfct = t;
+                        fc = 0;
+
+                        break;
+
+                    case SDLK_c:
+                        ortho = 1 - ortho;
+                        doPerspective();
+                        break;
+                }
+                break;
+            
+            case SDL_WINDOWEVENT:
+                if(event.window.event != SDL_WINDOWEVENT_RESIZED)
+                    break;
                 winw = event.window.data1;
                 winh = event.window.data2;
                 doPerspective();
-            }
+                break;
+
+            case SDL_QUIT:
+                SDL_GL_DeleteContext(glc);
+                SDL_FreeSurface(s_icon);
+                SDL_FreeCursor(cross_cursor);
+                SDL_FreeCursor(beam_cursor);
+                SDL_DestroyWindow(wnd);
+                SDL_Quit();
+                exit(0);
+                
         }
-        else if(event.type == SDL_QUIT)
-        {
-            SDL_GL_DeleteContext(glc);
-            SDL_FreeSurface(s_icon);
-            SDL_FreeCursor(cross_cursor);
-            SDL_FreeCursor(beam_cursor);
-            SDL_DestroyWindow(wnd);
-            SDL_Quit();
-            exit(0);
-        }
+        
     }
 #endif
     
@@ -763,22 +775,24 @@ void main_loop()
 //*************************************
 
 #ifndef BUILD_GLFW
-    // cursor
-    if(cursor_state == 0 && mx < touch_margin-1.f)
+
+    // Cursor icon switching based on the mouse position. 
+    // Have a cross while over the playing field.
+    switch (cursor_state) 
     {
-        SDL_SetCursor(beam_cursor);
-        cursor_state = 1;
+        case 0:
+            if (mx <= ww-touch_margin+1.f && mx >= touch_margin-1.f)
+                break;
+            SDL_SetCursor(beam_cursor);
+            cursor_state = 1;
+            break;
+        case 1:
+            if (mx > touch_margin && mx < ww-touch_margin) 
+                SDL_SetCursor(cross_cursor);
+                cursor_state = 0;
+            break;
     }
-    else if(cursor_state == 0 && mx > ww-touch_margin+1.f)
-    {
-        SDL_SetCursor(beam_cursor);
-        cursor_state = 1;
-    }
-    else if(cursor_state == 1 && mx > touch_margin && mx < ww-touch_margin)
-    {
-        SDL_SetCursor(cross_cursor);
-        cursor_state = 0;
-    }
+    
 #endif
     
     // camera
@@ -1298,9 +1312,32 @@ void printAttrib(SDL_GLattr attr, char* name)
 #endif
 
 
+// This is for benchmarking a specific function.
+// Returns the processing time. 
+unsigned int BenchmarkFunction(void (*F)(), int samples)
+{
+    (*F)(); // Preempt the function to skip initializations
+    unsigned int average = 0;
+    for (int i = 0; i < samples; i++)
+    {
+        struct timespec InitalTime;
+        struct timespec FinalTime;
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &InitalTime);
+        (*F)(); // execute function
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &FinalTime);
+        average += FinalTime.tv_nsec - InitalTime.tv_nsec;
+    }
+    if (average % 2 == 1) { // odd number detected!
+        average += 1;
+    }
+    return average/samples;
+}
+
+
 // A small function to perform djb2 hash algorithm. This is for quick string checking and other hash needs.
 // More info here: https://github.com/dim13/djb2/blob/master/docs/hash.md
-unsigned int quickHash(const char *string) {
+unsigned int quickHash(const char *string) 
+{
     unsigned long hash = 5381;
     int c;
     while (c = *string++) {
@@ -1336,6 +1373,9 @@ int main(int argc, char** argv)
     const int PUSHSPEED = 1053346333; // --push-speed
     const int TINY_PUSHSPEED = 193429813; // -ps
 
+    const int ARG_BENCHMARK = 3795426538; // --benchmark
+    const int ARG_BENCHMARK_TINY = 193429345; // -bm
+
     // Loop through console arguments and adjust program accordingly.
     // i starts at one to skip the program name.
     for (int i = 1; i < argc; i++) {
@@ -1349,6 +1389,16 @@ int main(int argc, char** argv)
             case HELP: // Display the help menu and quit
             case TINY_HELP:
                 printf(HelpMenu);
+                exit(0);
+            case ARG_BENCHMARK:
+            case ARG_BENCHMARK_TINY: // Benchmark multiple aspects of the game.
+                printf("==============================\n\n   -= Benchmark results =-\n\n");
+                printf("Collision Function: %i ns\n", BenchmarkFunction((void(*)())stepCollisions, 512));
+                printf("Take Stack: %i ns\n", BenchmarkFunction((void(*)())takeStack, 512));
+                printf("inject Figures: %i ns\n", BenchmarkFunction((void(*)())injectFigure, 512));
+                printf("New Game Function: %i ns\n\n", BenchmarkFunction((void(*)())newGame, 16));
+                printf("Inside Pitch: %i ns\n", BenchmarkFunction((void(*)())insidePitch, 512));
+                printf("\n==============================\n");
                 exit(0);
             case MSAALEVEL: // Change the MSAA level.
             case TINY_MSAALEVEL:
