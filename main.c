@@ -1311,7 +1311,7 @@ void printAttrib(SDL_GLattr attr, char* name)
 }
 #endif
 
-
+#ifdef __linux__ 
 // This is for benchmarking a specific function.
 // Returns the processing time. 
 unsigned int BenchmarkFunction(void (*F)(), int samples)
@@ -1332,6 +1332,7 @@ unsigned int BenchmarkFunction(void (*F)(), int samples)
     }
     return average/samples;
 }
+#endif
 
 
 // A small function to perform djb2 hash algorithm. This is for quick string checking and other hash needs.
