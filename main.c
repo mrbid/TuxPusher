@@ -1508,8 +1508,6 @@ int main(int argc, char** argv)
     printAttrib(SDL_GL_BLUE_SIZE, "GL_BLUE_SIZE");
     printAttrib(SDL_GL_ALPHA_SIZE, "GL_ALPHA_SIZE");
     printAttrib(SDL_GL_BUFFER_SIZE, "GL_BUFFER_SIZE");
-    printAttrib(SDL_GL_DOUBLEBUFFER, "GL_DOUBLEBUFFER");
-    printAttrib(SDL_GL_DEPTH_SIZE, "GL_DEPTH_SIZE");
     printAttrib(SDL_GL_STENCIL_SIZE, "GL_STENCIL_SIZE");
     printAttrib(SDL_GL_ACCUM_RED_SIZE, "GL_ACCUM_RED_SIZE");
     printAttrib(SDL_GL_ACCUM_GREEN_SIZE, "GL_ACCUM_GREEN_SIZE");
