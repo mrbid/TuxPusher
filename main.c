@@ -1468,12 +1468,13 @@ int main(int argc, char** argv)
         wnd = SDL_CreateWindow(appTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, winw, winh, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
         while(wnd == NULL)
         {
+            option_msaa--;
             if(option_msaa == 0)
             {
                 printf("ERROR: SDL_CreateWindow(): %s\n", SDL_GetError());
                 return 1;
             }
-            SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, option_msaa/2);
+            SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, option_msaa);
             wnd = SDL_CreateWindow(appTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, winw, winh, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
         }
         SDL_GL_SetSwapInterval(option_vsync);
