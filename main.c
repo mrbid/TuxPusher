@@ -153,7 +153,16 @@ typedef struct
 #define MAX_COINS 130
 coin coins[MAX_COINS] = {0};
 
-uint trophies[6] = {0};
+// Bit flag based method for storing trophie states, 
+// 0b0000_0000 where the last bit denotes 1, second last denotes 2 etc like so:
+// 0b0000_0001 = trophie 1
+// 0b0000_0101 = trophie 1 and 3
+char trophies_bits = 0; 
+#define trophies_set(x) trophies_bits |= (0b1 << x)
+#define trophies_clear() trophies_bits = 0
+#define trophies_get(x) (trophies_bits >> x) & 0b1
+#define trophies_all() trophies_bits
+
 
 //*************************************
 // game functions
@@ -418,13 +427,13 @@ uint stepCollisions()
                     {
                         if(j >= 0 && j <= 3)
                         {
-                            if(trophies[coins[j].color-1] == 1) // already have? then reward coins!
+                            if(trophies_get(coins[j].color-1)) // already have? then reward coins!
                             {
                                 gold_stack += 6.f;
                                 silver_stack += 6.f;
                             }
                             else
-                                trophies[coins[j].color-1] = 1;
+                                trophies_set(coins[j].color-1);
                         }
                         else
                         {
@@ -443,13 +452,13 @@ uint stepCollisions()
                         {
                             if(j >= 0 && j <= 3)
                             {
-                                if(trophies[coins[j].color-1] == 1) // already have? then reward coins!
+                                if(trophies_get(coins[j].color-1)) // already have? then reward coins!
                                 {
                                     gold_stack += 6.f;
                                     silver_stack += 6.f;
                                 }
                                 else
-                                    trophies[coins[j].color-1] = 1;
+                                    trophies_set(coins[j].color-1);
                             }
                             else
                             {
@@ -469,13 +478,13 @@ uint stepCollisions()
                     {
                         if(j >= 0 && j <= 3)
                         {
-                            if(trophies[coins[j].color-1] == 1) // already have? then reward coins!
+                            if(trophies_get(coins[j].color-1)) // already have? then reward coins!
                             {
                                 gold_stack += 6.f;
                                 silver_stack += 6.f;
                             }
                             else
-                                trophies[coins[j].color-1] = 1;
+                                trophies_set(coins[j].color-1);
                         }
                         else
                         {
@@ -491,13 +500,13 @@ uint stepCollisions()
                     {
                         if(j >= 0 && j <= 3)
                         {
-                            if(trophies[coins[j].color-1] == 1) // already have? then reward coins!
+                            if(trophies_get(coins[j].color-1)) // already have? then reward coins!
                             {
                                 gold_stack += 6.f;
                                 silver_stack += 6.f;
                             }
                             else
-                                trophies[coins[j].color-1] = 1;
+                                trophies_set(coins[j].color-1);
                         }
                         else
                             silver_stack += 1.f;
@@ -524,12 +533,7 @@ void newGame()
     active_coin = 0;
     inmotion = 0;
     gameover = 0.f;
-    trophies[0] = 0;
-    trophies[1] = 0;
-    trophies[2] = 0;
-    trophies[3] = 0;
-    trophies[4] = 0;
-    trophies[5] = 0;
+    trophies_clear();
     for(int i=0; i < MAX_COINS; i++)
     {
         coins[i].color = -1;
@@ -994,101 +998,88 @@ void main_loop()
 
     //
 
-    if(trophies[0] == 1)
-    {
-        mIdent(&model);
-        mTranslate(&model, 3.92732f, 1.0346f, 0.f);
-        mRotZ(&model, t*0.3f);
-        mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-        glUniform1f(opacity_id, 0.148f);
-        modelBind3(&mdlTux);
-        glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-    }
-
-    if(trophies[1] == 1)
-    {
-        mIdent(&model);
-        mTranslate(&model, 3.65552f, -1.30202f, 0.f);
-        mRotZ(&model, t*0.3f);
-        mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-        
-        glUniform1f(opacity_id, 0.148f);
-        modelBind3(&mdlTux);
-        glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-
-        glUniform1f(opacity_id, 0.5f);
-        modelBind3(&mdlEvil);
-        glDrawElements(GL_TRIANGLES, evil_numind, GL_UNSIGNED_BYTE, 0);
-    }
-
-    if(trophies[2] == 1)
-    {
-        mIdent(&model);
-        mTranslate(&model, 3.01911f, -3.23534f, 0.f);
-        mRotZ(&model, t*0.3f);
-        mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-        glUniform1f(opacity_id, 0.148f);
-        modelBind3(&mdlTux);
-        glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-
-        glUniform1f(opacity_id, 0.6f);
-        modelBind3(&mdlKing);
-        glDrawElements(GL_TRIANGLES, king_numind, GL_UNSIGNED_BYTE, 0);
-    }
-
-    if(trophies[3] == 1)
-    {
-        mIdent(&model);
-        mTranslate(&model, -3.92732f, 1.0346f, 0.f);
-        mRotZ(&model, t*0.3f);
-        mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-        glUniform1f(opacity_id, 0.148f);
-        modelBind3(&mdlTux);
-        glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-
-        modelBind3(&mdlNinja);
-        glDrawElements(GL_TRIANGLES, ninja_numind, GL_UNSIGNED_BYTE, 0);
-    }
-
-    if(trophies[4] == 1)
-    {
-        mIdent(&model);
-        mTranslate(&model, -3.65552f, -1.30202f, 0.f);
-        mRotZ(&model, t*0.3f);
-        mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-        glUniform1f(opacity_id, 0.148f);
-        modelBind3(&mdlTux);
-        glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-
-        glUniform1f(opacity_id, 0.4f);
-        modelBind3(&mdlSurf);
-        glDrawElements(GL_TRIANGLES, surf_numind, GL_UNSIGNED_SHORT, 0);
-    }
-
-    if(trophies[5] == 1)
-    {
-        mIdent(&model);
-        mTranslate(&model, -3.01911f, -3.23534f, 0.f);
-        mRotZ(&model, t*0.3f);
-        mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
-
-        glUniform1f(opacity_id, 0.148f);
-        modelBind3(&mdlTux);
-        glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
-
-        glUniform1f(opacity_id, 0.5f);
-        modelBind3(&mdlTrip);
-        glDrawElements(GL_TRIANGLES, trip_numind, GL_UNSIGNED_SHORT, 0);
+    if (trophies_all()) // Are there any trophies that need to be rendered?
+    { 
+        if(trophies_get(0))
+        {
+            mIdent(&model);
+            mTranslate(&model, 3.92732f, 1.0346f, 0.f);
+            mRotZ(&model, t*0.3f);
+            mMul(&modelview, &model, &view);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniform1f(opacity_id, 0.148f);
+            modelBind3(&mdlTux);
+            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
+        }
+        if(trophies_get(1))
+        {
+            mIdent(&model);
+            mTranslate(&model, 3.65552f, -1.30202f, 0.f);
+            mRotZ(&model, t*0.3f);
+            mMul(&modelview, &model, &view);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniform1f(opacity_id, 0.148f);
+            modelBind3(&mdlTux);
+            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
+            glUniform1f(opacity_id, 0.5f);
+            modelBind3(&mdlEvil);
+            glDrawElements(GL_TRIANGLES, evil_numind, GL_UNSIGNED_BYTE, 0);
+        }
+        if(trophies_get(2))
+        {
+            mIdent(&model);
+            mTranslate(&model, 3.01911f, -3.23534f, 0.f);
+            mRotZ(&model, t*0.3f);
+            mMul(&modelview, &model, &view);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniform1f(opacity_id, 0.148f);
+            modelBind3(&mdlTux);
+            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
+            glUniform1f(opacity_id, 0.6f);
+            modelBind3(&mdlKing);
+            glDrawElements(GL_TRIANGLES, king_numind, GL_UNSIGNED_BYTE, 0);
+        }
+        if(trophies_get(3))
+        {
+            mIdent(&model);
+            mTranslate(&model, -3.92732f, 1.0346f, 0.f);
+            mRotZ(&model, t*0.3f);
+            mMul(&modelview, &model, &view);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniform1f(opacity_id, 0.148f);
+            modelBind3(&mdlTux);
+            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
+            modelBind3(&mdlNinja);
+            glDrawElements(GL_TRIANGLES, ninja_numind, GL_UNSIGNED_BYTE, 0);
+        }
+        if(trophies_get(4))
+        {
+            mIdent(&model);
+            mTranslate(&model, -3.65552f, -1.30202f, 0.f);
+            mRotZ(&model, t*0.3f);
+            mMul(&modelview, &model, &view);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniform1f(opacity_id, 0.148f);
+            modelBind3(&mdlTux);
+            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
+            glUniform1f(opacity_id, 0.4f);
+            modelBind3(&mdlSurf);
+            glDrawElements(GL_TRIANGLES, surf_numind, GL_UNSIGNED_SHORT, 0);
+        }
+        if(trophies_get(5))
+        {
+            mIdent(&model);
+            mTranslate(&model, -3.01911f, -3.23534f, 0.f);
+            mRotZ(&model, t*0.3f);
+            mMul(&modelview, &model, &view);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniform1f(opacity_id, 0.148f);
+            modelBind3(&mdlTux);
+            glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
+            glUniform1f(opacity_id, 0.5f);
+            modelBind3(&mdlTrip);
+            glDrawElements(GL_TRIANGLES, trip_numind, GL_UNSIGNED_SHORT, 0);
+        }
     }
 
     // render scene props
