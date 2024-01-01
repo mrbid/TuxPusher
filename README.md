@@ -1,7 +1,6 @@
 # TuxPusher
 A Tux themed 3D coin pusher game.
 
-### Screendump
 [![Screenshot of the Tux Pusher game](https://dashboard.snapcraft.io/site_media/appmedia/2023/01/Screenshot_2023-01-24_23-57-35.png)](https://www.youtube.com/watch?v=39AIfMu2cYA "Tux Pusher Game Video")
 
 ### Mechanics / Rules
