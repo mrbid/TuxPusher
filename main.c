@@ -648,6 +648,8 @@ void doPerspective()
             aspect = wh / ww;
         mPerspective(&projection, 30.0f, aspect, 2.0f, 30.f);
     }
+
+    glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*)&projection.m[0][0]);
 }
 
 //*************************************
@@ -832,14 +834,14 @@ void main_loop()
     if(csp != 1)
     {
         shadeLambert3(&position_id, &projection_id, &modelview_id, &lightpos_id, &normal_id, &color_id, &opacity_id);
-        glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*) &projection.m[0][0]);
+        glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*)&projection.m[0][0]);
         glUniform3f(lightpos_id, lightpos.x, lightpos.y, lightpos.z);
         csp = 1;
     }
     glUniform1f(opacity_id, 0.148f);
 
     // render scene
-    glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+    glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&view.m[0][0]);
     modelBind3(&mdlScene);
     glDrawElements(GL_TRIANGLES, scene_numind, GL_UNSIGNED_SHORT, 0);
 
@@ -855,9 +857,6 @@ void main_loop()
         if(gameover == 0.f)
             gameover = t+3.0f;
     }
-
-    // coin
-    glUniform1f(opacity_id, 0.148f);
 
     // targeting coin
     if(gold_stack > 0.f || silver_stack > 0.f)
@@ -884,7 +883,7 @@ void main_loop()
                 mTranslate(&model, -1.90433f+(((mx-touch_margin)*rww)*3.80866f), -4.54055f, 0);
 
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glDrawElements(GL_TRIANGLES, coin_numind, GL_UNSIGNED_SHORT, 0);
         }
     }
@@ -927,7 +926,7 @@ void main_loop()
         else
             mTranslate(&model, -4.62939f, -4.54055f, 0.033f*i);
         mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
         glDrawElements(GL_TRIANGLES, coin_numind, GL_UNSIGNED_SHORT, 0);
     }
 
@@ -943,7 +942,7 @@ void main_loop()
         else
             mTranslate(&model, 4.62939f, -4.54055f, 0.033f*i);
         mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
         glDrawElements(GL_TRIANGLES, coin_numind, GL_UNSIGNED_SHORT, 0);
     }
 
@@ -962,15 +961,9 @@ void main_loop()
         mScale(&model, 1.f, 1.f, 2.f);
         mTranslate(&model, coins[i].x, coins[i].y, 0.f);
         mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
         glDrawElements(GL_TRIANGLES, coin_numind, GL_UNSIGNED_SHORT, 0);
     }
-
-    // tux is fancy
-    shadeLambert3(&position_id, &projection_id, &modelview_id, &lightpos_id, &normal_id, &color_id, &opacity_id);
-    glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*) &projection.m[0][0]);
-    glUniform3f(lightpos_id, lightpos.x, lightpos.y, lightpos.z);
-    glUniform1f(opacity_id, 0.148f);
 
     // trophies
     for(int i=0; i < 3; i++)
@@ -978,7 +971,7 @@ void main_loop()
         mIdent(&model);
         mTranslate(&model, coins[i].x, coins[i].y, 0.f);
         mMul(&modelview, &model, &view);
-        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+        glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
         
         // Draw the base Tux model, this will be our base to add apparel onto
         glUniform1f(opacity_id, 0.148f);
@@ -1024,7 +1017,7 @@ void main_loop()
             mTranslate(&model, 3.92732f, 1.0346f, 0.f);
             mRotZ(&model, t*0.3f);
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glUniform1f(opacity_id, 0.148f);
             modelBind3(&mdlTux);
             glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
@@ -1035,7 +1028,7 @@ void main_loop()
             mTranslate(&model, 3.65552f, -1.30202f, 0.f);
             mRotZ(&model, t*0.3f);
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glUniform1f(opacity_id, 0.148f);
             modelBind3(&mdlTux);
             glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
@@ -1049,7 +1042,7 @@ void main_loop()
             mTranslate(&model, 3.01911f, -3.23534f, 0.f);
             mRotZ(&model, t*0.3f);
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glUniform1f(opacity_id, 0.148f);
             modelBind3(&mdlTux);
             glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
@@ -1063,7 +1056,7 @@ void main_loop()
             mTranslate(&model, -3.92732f, 1.0346f, 0.f);
             mRotZ(&model, t*0.3f);
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glUniform1f(opacity_id, 0.148f);
             modelBind3(&mdlTux);
             glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
@@ -1076,7 +1069,7 @@ void main_loop()
             mTranslate(&model, -3.65552f, -1.30202f, 0.f);
             mRotZ(&model, t*0.3f);
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glUniform1f(opacity_id, 0.148f);
             modelBind3(&mdlTux);
             glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
@@ -1090,7 +1083,7 @@ void main_loop()
             mTranslate(&model, -3.01911f, -3.23534f, 0.f);
             mRotZ(&model, t*0.3f);
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glUniform1f(opacity_id, 0.148f);
             modelBind3(&mdlTux);
             glDrawElements(GL_TRIANGLES, tux_numind, GL_UNSIGNED_SHORT, 0);
@@ -1105,7 +1098,7 @@ void main_loop()
     if((gameover > 0.f && t > gameover) || std < 6.75f)
     {
         shadeFullbright(&position_id, &projection_id, &modelview_id, &color_id, &opacity_id);
-        glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*) &projection.m[0][0]);
+        glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*)&projection.m[0][0]);
         glUniform3f(lightpos_id, lightpos.x, lightpos.y, lightpos.z);
         csp = 0;
 
@@ -1113,7 +1106,7 @@ void main_loop()
         {
             if((std > 1.5f && std < 2.f) || (std > 2.5f && std < 3.f) || (std > 3.5f && std < 4.f))
             {
-                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&view.m[0][0]);
                 glUniform3f(color_id, 0.89f, 0.f, 0.157f);
                 modelBind1(&mdlRX);
                 glDrawElements(GL_TRIANGLES, rx_numind, GL_UNSIGNED_BYTE, 0);
@@ -1126,11 +1119,11 @@ void main_loop()
                 mIdent(&model);
                 mTranslate(&model, -0.01f, 0.01f, 0.f);
                 mMul(&modelview, &model, &view);
-                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
                 glUniform3f(color_id, 0.f, 0.f, 0.f);
                 glDrawElements(GL_TRIANGLES, sa_numind, GL_UNSIGNED_BYTE, 0);
                 
-                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&view.m[0][0]);
                 glUniform3f(color_id, 0.714f, 0.741f, 0.8f);
                 glDrawElements(GL_TRIANGLES, sa_numind, GL_UNSIGNED_BYTE, 0);
             }
@@ -1140,7 +1133,7 @@ void main_loop()
                 f32 step = (std-6.25f)*2.f;
                 if(step < 0.f){step = 0.f;}
                 glUniform3f(color_id, 0.698f - (0.16859f * step), 0.667f + (0.14084f * step), 0.263f + (0.65857f * step));
-                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+                glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&view.m[0][0]);
                 modelBind1(&mdlGA);
                 glDrawElements(GL_TRIANGLES, ga_numind, GL_UNSIGNED_BYTE, 0);
             }
@@ -1153,7 +1146,7 @@ void main_loop()
             glEnable(GL_BLEND);
 
             modelBind1(&mdlPlane);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&view.m[0][0]);
             glUniform3f(color_id, 0.f, 0.f, 0.f);
             f32 opa = t-gameover;
             if(opa > 0.8f){opa = 0.8f;}
@@ -1166,20 +1159,20 @@ void main_loop()
             mIdent(&model);
             mTranslate(&model, -0.01f, 0.01f, 0.01f);
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glUniform3f(color_id, 0.f, 0.f, 0.f);
             glDrawElements(GL_TRIANGLES, gameover_numind, GL_UNSIGNED_SHORT, 0);
 
             mIdent(&model);
             mTranslate(&model, 0.005f, -0.005f, -0.005f);
             mMul(&modelview, &model, &view);
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &modelview.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&modelview.m[0][0]);
             glUniform3f(color_id, 0.2f, 0.2f, 0.2f);
             glDrawElements(GL_TRIANGLES, gameover_numind, GL_UNSIGNED_SHORT, 0);
 
             const f32 ts = t*0.3f;
             glUniform3f(color_id, fabsf(cosf(ts)), fabsf(sinf(ts)), fabsf(cosf(ts)));
-            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*) &view.m[0][0]);
+            glUniformMatrix4fv(modelview_id, 1, GL_FALSE, (f32*)&view.m[0][0]);
             glDrawElements(GL_TRIANGLES, gameover_numind, GL_UNSIGNED_SHORT, 0);
             
             glDisable(GL_BLEND);
@@ -1275,6 +1268,8 @@ void window_size_callback(GLFWwindow* window, int width, int height)
             aspect = wh / ww;
         mPerspective(&projection, 30.0f, aspect, 0.1f, 320.f);
     }
+
+    glUniformMatrix4fv(projection_id, 1, GL_FALSE, (f32*)&projection.m[0][0]);
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
