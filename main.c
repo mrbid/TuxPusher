@@ -425,7 +425,7 @@ uint stepCollisions()
                     const f32 fl = (-1.65169f + (1.067374f*(fabsf(coins[j].y-3.70642f) * 2.503692947f)));
                     if(coins[j].x < fl)
                     {
-                        if(j >= 0 && j <= 3)
+                        if(j >= 0 && j < 3)
                         {
                             if(trophies_get(coins[j].color-1)) // already have? then reward coins!
                             {
@@ -450,7 +450,7 @@ uint stepCollisions()
                         const f32 fr = (1.65169f - (1.067374f*(fabsf(coins[j].y-3.70642f) * 2.503692947f)));
                         if(coins[j].x > fr)
                         {
-                            if(j >= 0 && j <= 3)
+                            if(j >= 0 && j < 3)
                             {
                                 if(trophies_get(coins[j].color-1)) // already have? then reward coins!
                                 {
@@ -476,7 +476,7 @@ uint stepCollisions()
                 {
                     if(coins[j].x >= -0.584316f && coins[j].x <= 0.584316f)
                     {
-                        if(j >= 0 && j <= 3)
+                        if(j >= 0 && j < 3)
                         {
                             if(trophies_get(coins[j].color-1)) // already have? then reward coins!
                             {
@@ -498,7 +498,7 @@ uint stepCollisions()
                     }
                     else
                     {
-                        if(j >= 0 && j <= 3)
+                        if(j >= 0 && j < 3)
                         {
                             if(trophies_get(coins[j].color-1)) // already have? then reward coins!
                             {
